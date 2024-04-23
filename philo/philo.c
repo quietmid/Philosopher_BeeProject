@@ -1,41 +1,47 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo.h                                            :+:      :+:    :+:   */
+/*   philo.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jlu <jlu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/22 17:25:34 by jlu               #+#    #+#             */
-/*   Updated: 2024/04/23 16:09:45 by jlu              ###   ########.fr       */
+/*   Created: 2024/04/23 15:10:31 by jlu               #+#    #+#             */
+/*   Updated: 2024/04/23 16:10:56 by jlu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PHILO_H
-# define PHILO_H
+#include "philo.h"
 
-// library headers
-# include <string.h>
-# include <pthread.h>
-# include <unistd.h>
-# include <stdlib.h>
-# include <stdio.h>
-
-// err
-# define ERR_INPUT "philo trainee, please think again"
-
-//typedef enum State
+//void	error_msg(char *err)
 //{
-//	THINKING = 0,
-//	HUNGRY = 1,
-//	EATING = 2,
-//	FULL = 3,
-//	SLEEPING = 4,
-//	TIRED = 5,
-//};
+//	printf("%s\n", err);
+//	exit (EXIT_FAILURE);
 
-// Functions
+//}
 
-//parsing
-int	ft_atol(const char *s);
+//int	check_arg(int argc, char *argv[])
+//{
+//	int	i;
+	
+//	if (argc < 5)
+//		error_msg(ERR_INPUT);
+//	i = 2;
+//	// atol each argv to int
+//}
 
-#endif
+int	main(int argc, char *argv[])
+{
+	int i;
+	long int nb;
+
+	i = 1;
+	while (argv[i])
+	{	
+		nb = ft_atol(argv[i]);
+		printf("%ld\n", nb);
+		i++;
+	}
+	
+	return 0;
+}
+
