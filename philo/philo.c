@@ -6,7 +6,7 @@
 /*   By: jlu <jlu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 15:10:31 by jlu               #+#    #+#             */
-/*   Updated: 2024/04/25 14:36:16 by jlu              ###   ########.fr       */
+/*   Updated: 2024/04/25 14:43:00 by jlu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,10 @@ t_philo *init_data(long int *nb)
 	return (philo);
 }
 
-t_philo	*check_arg(int argc, char *argv[])
+long int	*check_arg(int argc, char *argv[])
 {
 	int			i;
 	long int	*nb;
-	t_philo		*data;
 	
 	if (argc < 5 || argc > 6)
 		error_msg(ERR_INPUT);
@@ -53,23 +52,24 @@ t_philo	*check_arg(int argc, char *argv[])
 	while (argv[++i + 1])
 		nb[i] = ft_atol(argv[i + 1]);
 	nb[i] = '\0';
-	printf("ag count: %d\n", i);
 	i = -1;
 	while (++i < 5)
 	{
-		printf("i: %d\n", i);
 		if (nb[i] <= 0 && i != 4)
 			error_msg(ERR_AG);
+		if (i == 4 && nb[i] < 0)
+			error_msg(ERR_AG);
 	}
-	data = init_data(nb);
-	return (data);
+	return (nb);
 }
 
 int	main(int argc, char *argv[])
 {
 	t_philo *philo;
+	long int *input;
 	
-	philo = check_arg(argc, argv);
+	input = check_arg(argc, argv);
+	philo = init_data(input);
 	printf("Num of philos: %ld\n", philo->num_philo);
 	printf("Death timer: %ld\n", philo->time_die);
 	printf("break timer: %ld\n", philo->time_eat);
