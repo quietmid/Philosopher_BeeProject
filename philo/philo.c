@@ -6,7 +6,7 @@
 /*   By: jlu <jlu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 15:10:31 by jlu               #+#    #+#             */
-/*   Updated: 2024/04/24 18:45:38 by jlu              ###   ########.fr       */
+/*   Updated: 2024/04/25 14:36:16 by jlu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ t_philo	*check_arg(int argc, char *argv[])
 	long int	*nb;
 	t_philo		*data;
 	
-	if (argc < 5 || argc > 7)
+	if (argc < 5 || argc > 6)
 		error_msg(ERR_INPUT);
 	nb = (long int*)malloc(sizeof(int) * argc - 1);
 	if (!nb)
@@ -53,10 +53,12 @@ t_philo	*check_arg(int argc, char *argv[])
 	while (argv[++i + 1])
 		nb[i] = ft_atol(argv[i + 1]);
 	nb[i] = '\0';
+	printf("ag count: %d\n", i);
 	i = -1;
-	while (++i < 6)
+	while (++i < 5)
 	{
-		if (nb[i] < 0 && i != 5)
+		printf("i: %d\n", i);
+		if (nb[i] <= 0 && i != 4)
 			error_msg(ERR_AG);
 	}
 	data = init_data(nb);
