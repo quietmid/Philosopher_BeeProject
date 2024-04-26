@@ -6,7 +6,7 @@
 /*   By: jlu <jlu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 13:40:34 by jlu               #+#    #+#             */
-/*   Updated: 2024/04/26 13:44:43 by jlu              ###   ########.fr       */
+/*   Updated: 2024/04/26 21:23:40 by jlu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ int	init_data(char *argv[], t_philo *philo)
 	philo->time_sleep = ft_atol(argv[4]);
 	philo->dead_flag = 0;
 	philo->start_time = 0;
+	philo->all_ate = 0;
 	if (philo->num_philo < 1 || philo->time_die < 1 \
 	|| philo->time_eat < 1 || philo->time_sleep < 1)
 		error_msg(ERR_AG);

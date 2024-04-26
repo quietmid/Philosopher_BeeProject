@@ -6,7 +6,7 @@
 /*   By: jlu <jlu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 18:34:19 by jlu               #+#    #+#             */
-/*   Updated: 2024/04/26 14:15:08 by jlu              ###   ########.fr       */
+/*   Updated: 2024/04/26 21:56:55 by jlu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ typedef struct s_philo
 	long int		time_die;
 	long int		time_eat;
 	long int		time_sleep;
+	int				all_ate;
 	int				num_eat;
 	int				dead_flag;
 	long int		start_time;
@@ -85,5 +86,8 @@ void	ft_bzero(void *s, size_t n);
 int		init_data(char *argv[], t_philo *philo);
 void	init_thinker(t_philo *philo);
 int		init_mutex(t_philo *philo);
+
+// utils
+long long current_timestamp(void);
 
 #endif
