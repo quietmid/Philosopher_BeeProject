@@ -6,7 +6,7 @@
 #    By: jlu <jlu@student.hive.fi>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/24 17:57:19 by jlu               #+#    #+#              #
-#    Updated: 2024/04/24 18:43:11 by jlu              ###   ########.fr        #
+#    Updated: 2024/04/25 15:44:18 by jlu              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,6 +14,7 @@ PROJECT = philo
 NAME = philo
 
 SRC = philo.c \
+	  philo_routine.c \
 	  ft_atol.c \
 	  ft_calloc.c \
 

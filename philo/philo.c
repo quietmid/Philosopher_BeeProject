@@ -6,77 +6,107 @@
 /*   By: jlu <jlu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 15:10:31 by jlu               #+#    #+#             */
-/*   Updated: 2024/04/25 14:43:00 by jlu              ###   ########.fr       */
+/*   Updated: 2024/04/26 12:11:59 by jlu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	error_msg(char *err)
+long int	error_msg(char *err)
 {
 	printf("%s\n", err);
-	exit (EXIT_FAILURE);
-
+	return (1);
 }
 
-t_philo *init_data(long int *nb)
-{	
-	t_philo *philo;
-	
-	philo = (t_philo *)ft_calloc(1, sizeof(t_philo));
-	if (!philo)
-		error_msg(ERR_MEM);
-	if (nb[0] < 201)
-		philo->num_philo = nb[0];
-	else
-		error_msg("Too many confucius. It's confusing");
-	philo->time_die = nb[1];
-	philo->time_eat = nb[2];
-	philo->time_sleep = nb[3];
-	if (nb[4])
-		philo->num_eat = nb[4];
-	return (philo);
-}
-
-long int	*check_arg(int argc, char *argv[])
+void	init_data(char *argv[], t_philo *philo)
 {
-	int			i;
-	long int	*nb;
-	
-	if (argc < 5 || argc > 6)
-		error_msg(ERR_INPUT);
-	nb = (long int*)malloc(sizeof(int) * argc - 1);
-	if (!nb)
-		error_msg(ERR_MEM);
-	i = -1;
-	while (argv[++i + 1])
-		nb[i] = ft_atol(argv[i + 1]);
-	nb[i] = '\0';
-	i = -1;
-	while (++i < 5)
+	philo->num_philo = ft_atol(argv[1]);
+	philo->time_die = ft_atol(argv[2]);
+	philo->time_eat = ft_atol(argv[3]);
+	philo->time_sleep = ft_atol(argv[4]);
+	philo->dead_flag = 0;
+	philo->start_time = 0;
+	if (philo->num_philo < 1 || philo->time_die < 1 \
+	|| philo->time_eat < 1 || philo->time_sleep < 1)
+		error_msg(ERR_AG);
+	if (philo->num_philo > 200)
+		error_msg("Too many confucius. It's confusing");
+	if (argv[5] != '\0')
 	{
-		if (nb[i] <= 0 && i != 4)
-			error_msg(ERR_AG);
-		if (i == 4 && nb[i] < 0)
+		philo->num_eat = ft_atol(argv[5]);
+		if (philo->num_eat <= 0)
 			error_msg(ERR_AG);
 	}
-	return (nb);
+	if (argv[5] == '\0')
+		philo->num_eat = '\0';
+	if (init_mutex(philo) == 1)
+		error_msg("You can't lock this!");
+	init_thinker(philo);
 }
+
+void	init_thinker(t_philo *philo)
+{
+	int	i;
+
+	i = philo->num_philo;
+	//printf("The number of Confusius is: %d\n", i);
+	while (--i >= 0)
+	{
+		philo->thinkers[i].id = i;
+		//printf("Confusius[%d]\n", i);
+		philo->thinkers[i].meal_ate = 0;
+		philo->thinkers[i].l_fork = i;
+		printf("has l_fork id: %d", i);
+		if (i == 0)
+		{
+			philo->thinkers[i].r_fork = philo->num_philo - 1;
+			//printf(" and r_fork id: %d", philo->thinkers[i].r_fork);
+		}
+		else
+		{
+			philo->thinkers[i].r_fork = i - 1;
+			//printf(" and r_fork id: %d\n", philo->thinkers[i].r_fork);
+		}
+		philo->thinkers[i].t_last_meal = 0;
+		philo->thinkers[i].philo = philo;
+	}
+}
+
+int	init_mutex(t_philo *philo)
+{
+	int i;
+
+	i = philo->num_philo;
+	while (--i >= 0)
+	{
+		if (pthread_mutex_init(&(philo->fork[i]), NULL))
+			return (1);
+	}
+	if (pthread_mutex_init(&(philo->write_lock), NULL))
+		return (1);
+	if (pthread_mutex_init(&(philo->meal_lock), NULL))
+		return (1);
+	if (pthread_mutex_init(&(philo->dead_lock), NULL))
+		return (1);
+	return (0);
+}
+
+
 
 int	main(int argc, char *argv[])
 {
-	t_philo *philo;
-	long int *input;
+	t_philo		philo;
 	
-	input = check_arg(argc, argv);
-	philo = init_data(input);
-	printf("Num of philos: %ld\n", philo->num_philo);
-	printf("Death timer: %ld\n", philo->time_die);
-	printf("break timer: %ld\n", philo->time_eat);
-	printf("sleep timer: %ld\n", philo->time_sleep);
-	if (philo->num_eat)
-		printf("Number of time to eat: %ld\n", philo->num_eat);
-
+	if (argc < 5 || argc > 6)
+		return (error_msg(ERR_INPUT));
+	init_data(argv, &philo);
+	//free struct philo and input
 	return 0;
 }
 
+
+	//printf("number of philos: %ld\n", philo.num_philo);
+	//printf("number of time to die: %ld\n", philo.time_die);
+	//printf("number of time to eat: %ld\n", philo.time_eat);
+	//printf("number of time to sleep: %ld\n", philo.time_sleep);
+	//printf("number of meals need to be eaten: %d\n", philo.num_eat);
