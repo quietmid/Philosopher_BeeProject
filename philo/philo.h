@@ -6,7 +6,7 @@
 /*   By: jlu <jlu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 18:34:19 by jlu               #+#    #+#             */
-/*   Updated: 2024/04/26 12:09:16 by jlu              ###   ########.fr       */
+/*   Updated: 2024/04/26 14:15:08 by jlu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,11 @@
 # define ERR_INPUT "Confucius says, try again"
 # define ERR_AG "Invalid Arguments"
 # define ERR_MEM "Memry allocation fails"
+# define FORK "has taken a fork"
+# define EAT "is eating"
+# define SLEEP "is sleeping"
+# define THINK "is thinking"
+# define DEATH "died"
 
 struct s_philo;
 
@@ -68,12 +73,16 @@ typedef struct s_philo
 // Functions
 
 long int	error_msg(char *err);
+void		action_print(int timestamp, int id, char *message);
 
 //parsing
 int		ft_atol(const char *s);
 void	*ft_calloc(size_t count, size_t size);
 void	ft_bzero(void *s, size_t n);
-void	init_data(char *argv[], t_philo *philo);
+
+// initizalizer
+
+int		init_data(char *argv[], t_philo *philo);
 void	init_thinker(t_philo *philo);
 int		init_mutex(t_philo *philo);
 

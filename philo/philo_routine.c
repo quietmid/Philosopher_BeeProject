@@ -6,7 +6,7 @@
 /*   By: jlu <jlu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 15:43:42 by jlu               #+#    #+#             */
-/*   Updated: 2024/04/25 16:36:15 by jlu              ###   ########.fr       */
+/*   Updated: 2024/04/26 14:28:09 by jlu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,3 +30,20 @@ check
 	if (dead_flag == 1 || meals_eaten == num_eat)
 		exit
 */
+void	*p_day()
+{
+	
+}
+
+int	philo_rountine(t_philo *philo)
+{
+	int i;
+
+	i = 0;
+	while (i < philo->num_philo)
+	{
+		if (pthread_create(&(philo->thinkers[i].thread), NULL, &p_day, /*the argument for p_day)*/ != 0))
+			error_msg("No thread today");
+		i++;
+	}
+}

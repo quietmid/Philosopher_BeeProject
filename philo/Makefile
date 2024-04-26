@@ -6,7 +6,7 @@
 #    By: jlu <jlu@student.hive.fi>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/24 17:57:19 by jlu               #+#    #+#              #
-#    Updated: 2024/04/25 15:44:18 by jlu              ###   ########.fr        #
+#    Updated: 2024/04/26 14:15:31 by jlu              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,8 +15,10 @@ NAME = philo
 
 SRC = philo.c \
 	  philo_routine.c \
+	  initializer.c \
 	  ft_atol.c \
 	  ft_calloc.c \
+	  action_print.c \
 
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
