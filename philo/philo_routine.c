@@ -6,7 +6,7 @@
 /*   By: jlu <jlu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 15:43:42 by jlu               #+#    #+#             */
-/*   Updated: 2024/04/29 15:38:27 by jlu              ###   ########.fr       */
+/*   Updated: 2024/04/29 21:36:26 by jlu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,9 @@ void	*p_day(void *void_philo)
 	philo = kong->philo;
 	while (philo->dead_flag != 1)
 	{
-		if (pthread_mutex_lock(&(philo->fork[kong->l_fork])) != 0)
+		if (pthread_mutex_lock(&(philo->fork[kong->l_fork])))
 			error_msg("Lock aint working");
-		action_print();
+		action_print(&philo, kong->id, FORK);
 	}
 }
 
@@ -58,7 +58,7 @@ int	philo_rountine(t_philo *philo)
 	philo->start_time = current_timestamp();
 	while (i < philo->num_philo)
 	{
-		if (pthread_create(&(kong[i].thread), NULL, &p_day, &(kong[i])) != 0)
+		if (pthread_create(&(kong[i].thread), NULL, &p_day, &(kong[i])))
 			error_msg("No thread today");
 		kong[i].t_last_meal = current_timestamp();
 		i++;

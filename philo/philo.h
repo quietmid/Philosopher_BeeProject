@@ -6,7 +6,7 @@
 /*   By: jlu <jlu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 18:34:19 by jlu               #+#    #+#             */
-/*   Updated: 2024/04/29 15:48:08 by jlu              ###   ########.fr       */
+/*   Updated: 2024/04/29 22:05:04 by jlu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,11 +54,11 @@ typedef struct s_philo
 	int				num_eat;
 	int				dead_flag;
 	long long		start_time;
-	pthread_mutex_t	fork[201];
+	pthread_mutex_t	fork[200];
 	pthread_mutex_t	write_lock;
 	pthread_mutex_t	meal_lock;
 	pthread_mutex_t	dead_lock;
-	t_confucius		thinkers[201];
+	t_confucius		thinkers[200];
 }		t_philo;
 
 //typedef enum State
