@@ -6,7 +6,7 @@
 /*   By: jlu <jlu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 18:34:19 by jlu               #+#    #+#             */
-/*   Updated: 2024/04/26 21:56:55 by jlu              ###   ########.fr       */
+/*   Updated: 2024/04/29 15:48:08 by jlu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ typedef struct s_philo
 	int				all_ate;
 	int				num_eat;
 	int				dead_flag;
-	long int		start_time;
+	long long		start_time;
 	pthread_mutex_t	fork[201];
 	pthread_mutex_t	write_lock;
 	pthread_mutex_t	meal_lock;
@@ -74,7 +74,7 @@ typedef struct s_philo
 // Functions
 
 long int	error_msg(char *err);
-void		action_print(int timestamp, int id, char *message);
+void		action_print(t_philo *philo, int id, char *message);
 
 //parsing
 int		ft_atol(const char *s);
