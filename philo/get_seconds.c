@@ -6,7 +6,7 @@
 /*   By: jlu <jlu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 21:49:59 by jlu               #+#    #+#             */
-/*   Updated: 2024/04/29 08:53:53 by jlu              ###   ########.fr       */
+/*   Updated: 2024/04/29 08:56:49 by jlu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ long long current_timestamp(void)
 	return (ms);
 }
 
+// store the first timestamp and minus ms_nw to get how much time has passed.
 // int main ()
 // {
 // 	long long ms_start = current_timestamp();
