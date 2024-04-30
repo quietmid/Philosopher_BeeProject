@@ -6,7 +6,7 @@
 /*   By: jlu <jlu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 13:40:34 by jlu               #+#    #+#             */
-/*   Updated: 2024/04/30 19:14:01 by jlu              ###   ########.fr       */
+/*   Updated: 2024/04/30 20:09:12 by jlu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	init_thinker(t_data *rules)
 			//printf(" and r_fork id: %d\n", philo->thinkers[i].r_fork);
 		}
 		rules->philo[i].t_last_meal = 0;
-		rules->philo[i].philo = rules;
+		rules->philo[i].data = rules;
 		rules->philo[i].full = false;
 	}
 }
@@ -75,15 +75,13 @@ int	init_data(char *argv[], t_data *rules)
 		error_msg(ERR_AG);
 	if (rules->num_philo > 200)
 		error_msg("Too many confucius. It's confusing");
-	if (argv[5] != '\0')
+	if (argv[5])
 	{
 		rules->num_eat = ft_atol(argv[5]);
 		if (rules->num_eat <= 0)
 			error_msg(ERR_AG);
 		rules->num_eat_flag = true;
 	}
-	if (argv[5] == '\0')
-		rules->num_eat = '\0';
 	if (init_mutex(rules) == 1)
 		error_msg("You can't lock this!");
 	init_thinker(rules);

@@ -6,7 +6,7 @@
 /*   By: jlu <jlu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 21:49:59 by jlu               #+#    #+#             */
-/*   Updated: 2024/04/29 08:56:49 by jlu              ###   ########.fr       */
+/*   Updated: 2024/04/30 20:06:17 by jlu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ long long current_timestamp(void)
 	ms = (time.tv_sec * 1000LL) + (time.tv_usec / 1000);
 	return (ms);
 }
+
 
 // store the first timestamp and minus ms_nw to get how much time has passed.
 // int main ()

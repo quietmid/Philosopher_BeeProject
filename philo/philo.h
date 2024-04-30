@@ -6,7 +6,7 @@
 /*   By: jlu <jlu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 18:34:19 by jlu               #+#    #+#             */
-/*   Updated: 2024/04/30 19:48:13 by jlu              ###   ########.fr       */
+/*   Updated: 2024/04/30 20:17:50 by jlu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,6 @@ typedef struct s_data
 //};
 
 // Functions
-
 long int	error_msg(char *err);
 void		action_print(t_data *rules, int id, char *message);
 
@@ -96,5 +95,10 @@ int		init_mutex(t_data *rules);
 
 // utils
 long long current_timestamp(void);
+
+//threading
+int		philo_rountine(t_data *rules);
+void	*p_day(void *void_philo);
+void	p_eat(t_philo *philo);
 
 #endif

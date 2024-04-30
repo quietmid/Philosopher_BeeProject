@@ -6,7 +6,7 @@
 /*   By: jlu <jlu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 15:43:42 by jlu               #+#    #+#             */
-/*   Updated: 2024/04/30 19:55:00 by jlu              ###   ########.fr       */
+/*   Updated: 2024/04/30 20:24:56 by jlu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,18 +19,18 @@ void	p_eat(t_philo *philo)
 	rules = philo->data;
 	if (pthread_mutex_lock(&(rules->fork[philo->l_fork])))
 		error_msg(ERR_MX);
-	action_print(philo, philo->id, FORK);
+	action_print(rules, philo->id, FORK);
 	if (pthread_mutex_lock(&(rules->fork[philo->r_fork])))
 		error_msg(ERR_MX);
-	action_print(philo, philo->id, FORK);
+	action_print(rules, philo->id, FORK);
 	if (pthread_mutex_lock(&(rules->meal_lock)))
 		error_msg(ERR_MX);
-	action_print(philo, philo->id, EAT);
+	action_print(rules, philo->id, EAT);
 	philo->t_last_meal = current_timestamp();
 	if (pthread_mutex_unlock(&(rules->meal_lock)))
 		error_msg(ERR_MX);
 	philo->meal_ate += 1;
-	// make sure they eat for the amount of time that's given
+	usleep(rules->time_eat);
 	if (pthread_mutex_unlock(&(rules->fork[philo->l_fork])))
 		error_msg(ERR_MX);
 	if (pthread_mutex_unlock(&(rules->fork[philo->r_fork])))
@@ -43,6 +43,8 @@ void	*p_day(void *void_philo)
 
 	philo = (t_philo *)void_philo;
 	rules = philo->data;
+	if (philo->id % 2)
+		usleep(15000);
 	// add a rule to separate the philosopher. some sleep first 
 	// to make sure there is no deadlock
 	while (rules->dead_flag != 1)
@@ -50,10 +52,11 @@ void	*p_day(void *void_philo)
 		p_eat(philo);
 		if (rules->all_ate)
 			break ;
-		action_print(philo, philo->id, SLEEP); // they sleep first
-		//actually need a sleep function for the amount of time that they need 
-		action_print(philo, philo->id, THINK);//they think
+		action_print(rules, philo->id, SLEEP); // they sleep first
+		usleep(rules->time_sleep);
+		action_print(rules, philo->id, THINK);//they think
 	}
+	return(NULL);
 }
 
 int	philo_rountine(t_data *rules)
@@ -73,5 +76,6 @@ int	philo_rountine(t_data *rules)
 		i++;
 	}
 	// monitor functions
+	// join them back to the main thread
 	return (0);
 }
