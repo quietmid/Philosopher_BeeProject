@@ -6,12 +6,11 @@
 /*   By: jlu <jlu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 18:35:00 by jlu               #+#    #+#             */
-/*   Updated: 2024/04/24 18:35:28 by jlu              ###   ########.fr       */
+/*   Updated: 2024/04/30 11:58:10 by jlu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-#include <limits.h>
 
 static int	ft_get_int(const char *s, int i)
 {

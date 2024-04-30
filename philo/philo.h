@@ -6,7 +6,7 @@
 /*   By: jlu <jlu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 18:34:19 by jlu               #+#    #+#             */
-/*   Updated: 2024/04/29 22:05:04 by jlu              ###   ########.fr       */
+/*   Updated: 2024/04/30 12:07:09 by jlu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,13 @@
 
 // library headers
 # include <string.h>
-# include <pthread.h>
-# include <unistd.h>
-# include <stdlib.h>
-# include <stdio.h>
-# include <sys/time.h>
+# include <stdbool.h> // to check if the thinker is full or not
+# include <pthread.h> // pthread, mutex
+# include <unistd.h> // usleep
+# include <stdlib.h> // malloc
+# include <stdio.h> // printf
+# include <sys/time.h> // gettimeofday
+# include <limits.h> // INT_MAX | LONG_MAX
 
 // err
 # define ERR_INPUT "Confucius says, try again"
@@ -33,18 +35,19 @@
 
 struct s_philo;
 
-typedef struct s_confucius
+typedef struct s_philo
 {
 	int				id;
 	int				meal_ate;
 	int				l_fork;
 	int				r_fork;
+	bool			full;
 	long long		t_last_meal;
 	pthread_t		thread;
-	struct s_philo 	*philo;
-}		t_confucius;
+	struct s_data 	*data;
+}		t_philo;
 
-typedef struct s_philo
+typedef struct s_data
 {
 	long int		num_philo;
 	long int		time_die;
@@ -58,8 +61,8 @@ typedef struct s_philo
 	pthread_mutex_t	write_lock;
 	pthread_mutex_t	meal_lock;
 	pthread_mutex_t	dead_lock;
-	t_confucius		thinkers[200];
-}		t_philo;
+	t_philo		philo[200];
+}		t_data;
 
 //typedef enum State
 //{

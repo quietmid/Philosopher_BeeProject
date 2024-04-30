@@ -6,7 +6,7 @@
 /*   By: jlu <jlu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 14:09:00 by jlu               #+#    #+#             */
-/*   Updated: 2024/04/29 20:51:06 by jlu              ###   ########.fr       */
+/*   Updated: 2024/04/30 13:22:23 by jlu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,15 @@ long int	error_msg(char *err)
 	return (1);
 }
 
-void	action_print(t_philo *philo, int id, char *message)
+void	action_print(t_data *rules, int id, char *message)
 {
-	pthread_mutex_lock(&(philo->write_lock));
-	if (philo->dead_flag != 1)
+	pthread_mutex_lock(&(rules->write_lock));
+	if (rules->dead_flag != 1)
 	{
-		printf("%lld ", current_timestamp() - philo->start_time);
+		printf("%lld ", current_timestamp() - rules->start_time);
 		printf("%d %s\n", id + 1, message);
 	}
-	pthread_mutex_unlock(&(philo->write_lock));
+	pthread_mutex_unlock(&(rules->write_lock));
 }
 
 // int main()

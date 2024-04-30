@@ -6,7 +6,7 @@
 /*   By: jlu <jlu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 15:43:42 by jlu               #+#    #+#             */
-/*   Updated: 2024/04/29 21:36:26 by jlu              ###   ########.fr       */
+/*   Updated: 2024/04/30 13:21:52 by jlu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,33 +33,34 @@ check
 void	*p_day(void *void_philo)
 {
 	int			i;
-	t_confucius	*kong;
-	t_philo		*philo;
+	t_philo		*kong;
+	t_data		*data;
 
 
 	i = 0;
-	kong = (t_confucius *)void_philo;
-	philo = kong->philo;
-	while (philo->dead_flag != 1)
+	kong = (t_philo *)void_philo;
+	data = kong->data;
+	while (data->dead_flag != 1)
 	{
-		if (pthread_mutex_lock(&(philo->fork[kong->l_fork])))
+		if (pthread_mutex_lock(&(data->fork[kong->l_fork])))
 			error_msg("Lock aint working");
-		action_print(&philo, kong->id, FORK);
+		action_print(&data, kong->id, FORK);
 	}
 }
 
-int	philo_rountine(t_philo *philo)
+int	philo_rountine(t_data *rules)
 {
 	int i;
-	t_confucius *kong;
+	t_philo *kong;
 
 	i = 0;
-	kong = philo->thinkers;
-	philo->start_time = current_timestamp();
-	while (i < philo->num_philo)
+	kong = rules->philo;
+	rules->start_time = current_timestamp();
+	while (i < rules->num_philo)
 	{
 		if (pthread_create(&(kong[i].thread), NULL, &p_day, &(kong[i])))
 			error_msg("No thread today");
+		// if meal_ate then
 		kong[i].t_last_meal = current_timestamp();
 		i++;
 	}

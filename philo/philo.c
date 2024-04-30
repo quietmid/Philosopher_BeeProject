@@ -6,7 +6,7 @@
 /*   By: jlu <jlu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 15:10:31 by jlu               #+#    #+#             */
-/*   Updated: 2024/04/26 13:43:13 by jlu              ###   ########.fr       */
+/*   Updated: 2024/04/30 12:05:47 by jlu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,11 @@ long int	error_msg(char *err)
 
 int	main(int argc, char *argv[])
 {
-	t_philo		philo;
+	t_data		rules;
 	
 	if (argc < 5 || argc > 6)
 		return (error_msg(ERR_INPUT));
-	if (init_data(argv, &philo) == 1)
+	if (init_data(argv, &rules) == 1)
 		error_msg("Init failed");
 	//free struct philo and input
 	return 0;
