@@ -6,7 +6,7 @@
 /*   By: jlu <jlu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 18:34:19 by jlu               #+#    #+#             */
-/*   Updated: 2024/04/30 12:07:09 by jlu              ###   ########.fr       */
+/*   Updated: 2024/04/30 19:48:13 by jlu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,9 @@
 # define ERR_INPUT "Confucius says, try again"
 # define ERR_AG "Invalid Arguments"
 # define ERR_MEM "Memry allocation fails"
+# define ERR_MX "Mutex Fails"
+
+// Philo Actions
 # define FORK "has taken a fork"
 # define EAT "is eating"
 # define SLEEP "is sleeping"
@@ -53,9 +56,10 @@ typedef struct s_data
 	long int		time_die;
 	long int		time_eat;
 	long int		time_sleep;
-	int				all_ate;
 	int				num_eat;
-	int				dead_flag;
+	bool			dead_flag;
+	bool			all_ate;
+	bool			num_eat_flag;
 	long long		start_time;
 	pthread_mutex_t	fork[200];
 	pthread_mutex_t	write_lock;
@@ -77,7 +81,7 @@ typedef struct s_data
 // Functions
 
 long int	error_msg(char *err);
-void		action_print(t_philo *philo, int id, char *message);
+void		action_print(t_data *rules, int id, char *message);
 
 //parsing
 int		ft_atol(const char *s);
@@ -86,9 +90,9 @@ void	ft_bzero(void *s, size_t n);
 
 // initizalizer
 
-int		init_data(char *argv[], t_philo *philo);
-void	init_thinker(t_philo *philo);
-int		init_mutex(t_philo *philo);
+int		init_data(char *argv[], t_data *rules);
+void	init_thinker(t_data *rules);
+int		init_mutex(t_data *rules);
 
 // utils
 long long current_timestamp(void);

@@ -6,62 +6,72 @@
 /*   By: jlu <jlu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 15:43:42 by jlu               #+#    #+#             */
-/*   Updated: 2024/04/30 13:21:52 by jlu              ###   ########.fr       */
+/*   Updated: 2024/04/30 19:55:00 by jlu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-//philo rountine () executed over and over by the philos until the dead_flag = 1
-/*
-while ()
+void	p_eat(t_philo *philo)
 {
-	if (philo[1].thinkig != 1 && left fork == available)
-		pick up the left fork
-		if (right fork == available)
-			pick up
-		else
-			drop the left work
-		if (both fork available)
-			eat	
-}
+	t_data *rules;
 
-check 
-	if (dead_flag == 1 || meals_eaten == num_eat)
-		exit
-*/
+	rules = philo->data;
+	if (pthread_mutex_lock(&(rules->fork[philo->l_fork])))
+		error_msg(ERR_MX);
+	action_print(philo, philo->id, FORK);
+	if (pthread_mutex_lock(&(rules->fork[philo->r_fork])))
+		error_msg(ERR_MX);
+	action_print(philo, philo->id, FORK);
+	if (pthread_mutex_lock(&(rules->meal_lock)))
+		error_msg(ERR_MX);
+	action_print(philo, philo->id, EAT);
+	philo->t_last_meal = current_timestamp();
+	if (pthread_mutex_unlock(&(rules->meal_lock)))
+		error_msg(ERR_MX);
+	philo->meal_ate += 1;
+	// make sure they eat for the amount of time that's given
+	if (pthread_mutex_unlock(&(rules->fork[philo->l_fork])))
+		error_msg(ERR_MX);
+	if (pthread_mutex_unlock(&(rules->fork[philo->r_fork])))
+		error_msg(ERR_MX);
+}
 void	*p_day(void *void_philo)
 {
-	int			i;
-	t_philo		*kong;
-	t_data		*data;
+	t_philo		*philo;
+	t_data		*rules;
 
-
-	i = 0;
-	kong = (t_philo *)void_philo;
-	data = kong->data;
-	while (data->dead_flag != 1)
+	philo = (t_philo *)void_philo;
+	rules = philo->data;
+	// add a rule to separate the philosopher. some sleep first 
+	// to make sure there is no deadlock
+	while (rules->dead_flag != 1)
 	{
-		if (pthread_mutex_lock(&(data->fork[kong->l_fork])))
-			error_msg("Lock aint working");
-		action_print(&data, kong->id, FORK);
+		p_eat(philo);
+		if (rules->all_ate)
+			break ;
+		action_print(philo, philo->id, SLEEP); // they sleep first
+		//actually need a sleep function for the amount of time that they need 
+		action_print(philo, philo->id, THINK);//they think
 	}
 }
 
 int	philo_rountine(t_data *rules)
 {
 	int i;
-	t_philo *kong;
+	t_philo *philo;
 
 	i = 0;
-	kong = rules->philo;
+	philo = rules->philo;
 	rules->start_time = current_timestamp();
 	while (i < rules->num_philo)
 	{
-		if (pthread_create(&(kong[i].thread), NULL, &p_day, &(kong[i])))
+		if (pthread_create(&(philo[i].thread), NULL, &p_day, &(philo[i])))
 			error_msg("No thread today");
 		// if meal_ate then
-		kong[i].t_last_meal = current_timestamp();
+		philo[i].t_last_meal = current_timestamp();
 		i++;
 	}
+	// monitor functions
+	return (0);
 }
