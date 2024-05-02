@@ -6,7 +6,7 @@
 /*   By: jlu <jlu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 18:34:19 by jlu               #+#    #+#             */
-/*   Updated: 2024/04/30 20:17:50 by jlu              ###   ########.fr       */
+/*   Updated: 2024/05/03 01:36:59 by jlu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,11 +94,14 @@ void	init_thinker(t_data *rules);
 int		init_mutex(t_data *rules);
 
 // utils
-long long current_timestamp(void);
+long long	current_timestamp(void);
+long long	time_diff(long long l_eat, long long now);
 
 //threading
 int		philo_rountine(t_data *rules);
 void	*p_day(void *void_philo);
 void	p_eat(t_philo *philo);
+void	death_checker(t_data *r, t_philo *p);
+void	end_rountine(t_data *r, t_philo *p);
 
 #endif

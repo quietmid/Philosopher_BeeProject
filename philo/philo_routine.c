@@ -6,11 +6,39 @@
 /*   By: jlu <jlu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 15:43:42 by jlu               #+#    #+#             */
-/*   Updated: 2024/04/30 20:24:56 by jlu              ###   ########.fr       */
+/*   Updated: 2024/05/03 01:39:54 by jlu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+void	death_checker(t_data *r, t_philo *p)
+{
+	int i;
+
+	while (!(r->all_ate))
+	{
+		i = -1;
+		while (++i < r->num_philo && !(r->dead_flag))
+		{
+			pthread_mutex_lock(&(r->meal_lock));
+			if (time_diff(p[i].t_last_meal, current_timestamp()) > r->time_die)
+			{
+				action_print(r, i, DEATH);
+				r->dead_flag = true;
+			}
+			pthread_mutex_unlock(&(r->meal_lock));
+			usleep(150);
+		}
+		if (r->dead_flag)
+			break ;
+		i = 0;
+		while (r->num_eat_flag && i < r->num_philo && p[i].meal_ate >= r->num_eat)
+			i++;
+		if (i == r->num_philo)
+			r->all_ate = true;
+	}
+}
 
 void	p_eat(t_philo *philo)
 {
@@ -44,7 +72,7 @@ void	*p_day(void *void_philo)
 	philo = (t_philo *)void_philo;
 	rules = philo->data;
 	if (philo->id % 2)
-		usleep(15000);
+		usleep(15000); // should the smart sleep timer be flexible. based on the eating time and sleep timer?
 	// add a rule to separate the philosopher. some sleep first 
 	// to make sure there is no deadlock
 	while (rules->dead_flag != 1)
@@ -57,6 +85,17 @@ void	*p_day(void *void_philo)
 		action_print(rules, philo->id, THINK);//they think
 	}
 	return(NULL);
+}
+void	end_rountine(t_data *r, t_philo *p)
+{
+	int i;
+
+	i = -1;
+	while (++i < r->num_philo)
+		pthread_join(p[i].thread, NULL);
+	i = -1;
+	while (++i < r->num_philo)
+		pthread_mutex_destroy(&(r->fork[i]));
 }
 
 int	philo_rountine(t_data *rules)
@@ -75,7 +114,7 @@ int	philo_rountine(t_data *rules)
 		philo[i].t_last_meal = current_timestamp();
 		i++;
 	}
-	// monitor functions
-	// join them back to the main thread
+	death_checker(rules, philo); // monitor death and num_eat
+	end_rountine(rules, philo);
 	return (0);
 }

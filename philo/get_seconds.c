@@ -6,13 +6,13 @@
 /*   By: jlu <jlu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 21:49:59 by jlu               #+#    #+#             */
-/*   Updated: 2024/04/30 20:06:17 by jlu              ###   ########.fr       */
+/*   Updated: 2024/05/03 01:36:00 by jlu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-long long current_timestamp(void)
+long long	current_timestamp(void)
 {
 	struct timeval	time;
 	long long		ms;
@@ -22,6 +22,13 @@ long long current_timestamp(void)
 	return (ms);
 }
 
+long long	time_diff(long long l_eat, long long now)
+{
+	long long time_diff;
+
+	time_diff = now - l_eat;
+	return(time_diff);
+}
 
 // store the first timestamp and minus ms_nw to get how much time has passed.
 // int main ()
