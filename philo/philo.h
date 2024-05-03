@@ -6,7 +6,7 @@
 /*   By: jlu <jlu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 18:34:19 by jlu               #+#    #+#             */
-/*   Updated: 2024/05/03 01:36:59 by jlu              ###   ########.fr       */
+/*   Updated: 2024/05/03 18:40:01 by jlu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ typedef struct s_data
 	bool			dead_flag;
 	bool			all_ate;
 	bool			num_eat_flag;
-	long long		start_time;
+	long int		start_time;
 	pthread_mutex_t	fork[200];
 	pthread_mutex_t	write_lock;
 	pthread_mutex_t	meal_lock;
@@ -94,8 +94,9 @@ void	init_thinker(t_data *rules);
 int		init_mutex(t_data *rules);
 
 // utils
-long long	current_timestamp(void);
-long long	time_diff(long long l_eat, long long now);
+long int	current_timestamp(void);
+long int	time_diff(long int l_eat, long int now);
+void		sleeper(t_data *r, long int time);
 
 //threading
 int		philo_rountine(t_data *rules);

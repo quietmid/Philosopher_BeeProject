@@ -6,30 +6,43 @@
 /*   By: jlu <jlu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 21:49:59 by jlu               #+#    #+#             */
-/*   Updated: 2024/05/03 01:36:00 by jlu              ###   ########.fr       */
+/*   Updated: 2024/05/03 18:29:26 by jlu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-long long	current_timestamp(void)
+long int	current_timestamp(void)
 {
 	struct timeval	time;
-	long long		ms;
+	long int		ms;
 
 	gettimeofday(&time, NULL);
-	ms = (time.tv_sec * 1000LL) + (time.tv_usec / 1000);
+	ms = (time.tv_sec * 1000) + (time.tv_usec / 1000);
 	return (ms);
 }
 
-long long	time_diff(long long l_eat, long long now)
+long time_diff(long int l_eat, long int now)
 {
-	long long time_diff;
+	long int time_diff;
 
 	time_diff = now - l_eat;
 	return(time_diff);
 }
 
+void	sleeper(t_data *r, long int time)
+{
+	long int	i;
+
+	i = current_timestamp();
+
+	while (!(r->dead_flag))
+	{
+		if (time_diff(i, current_timestamp()) >= time)
+			break ;
+		usleep(50);
+	}
+}
 // store the first timestamp and minus ms_nw to get how much time has passed.
 // int main ()
 // {

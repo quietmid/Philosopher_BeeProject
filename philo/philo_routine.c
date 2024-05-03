@@ -6,7 +6,7 @@
 /*   By: jlu <jlu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 15:43:42 by jlu               #+#    #+#             */
-/*   Updated: 2024/05/03 01:39:54 by jlu              ###   ########.fr       */
+/*   Updated: 2024/05/03 18:47:25 by jlu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,8 @@ void	p_eat(t_philo *philo)
 	philo->t_last_meal = current_timestamp();
 	if (pthread_mutex_unlock(&(rules->meal_lock)))
 		error_msg(ERR_MX);
-	philo->meal_ate += 1;
-	usleep(rules->time_eat);
+	philo->meal_ate++;
+	sleeper(rules, rules->time_eat);
 	if (pthread_mutex_unlock(&(rules->fork[philo->l_fork])))
 		error_msg(ERR_MX);
 	if (pthread_mutex_unlock(&(rules->fork[philo->r_fork])))
@@ -72,16 +72,14 @@ void	*p_day(void *void_philo)
 	philo = (t_philo *)void_philo;
 	rules = philo->data;
 	if (philo->id % 2)
-		usleep(15000); // should the smart sleep timer be flexible. based on the eating time and sleep timer?
-	// add a rule to separate the philosopher. some sleep first 
-	// to make sure there is no deadlock
+		usleep(rules->time_sleep/2);
 	while (rules->dead_flag != 1)
 	{
 		p_eat(philo);
 		if (rules->all_ate)
 			break ;
 		action_print(rules, philo->id, SLEEP); // they sleep first
-		usleep(rules->time_sleep);
+		sleeper(rules, rules->time_sleep);
 		action_print(rules, philo->id, THINK);//they think
 	}
 	return(NULL);
@@ -110,11 +108,11 @@ int	philo_rountine(t_data *rules)
 	{
 		if (pthread_create(&(philo[i].thread), NULL, &p_day, &(philo[i])))
 			error_msg("No thread today");
-		// if meal_ate then
 		philo[i].t_last_meal = current_timestamp();
 		i++;
 	}
 	death_checker(rules, philo); // monitor death and num_eat
-	end_rountine(rules, philo);
+	end_rountine(rules, philo); 
+	// need to destroy all the mutex ?
 	return (0);
 }

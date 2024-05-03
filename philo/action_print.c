@@ -6,7 +6,7 @@
 /*   By: jlu <jlu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 14:09:00 by jlu               #+#    #+#             */
-/*   Updated: 2024/04/30 13:22:23 by jlu              ###   ########.fr       */
+/*   Updated: 2024/05/03 18:27:26 by jlu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	action_print(t_data *rules, int id, char *message)
 	pthread_mutex_lock(&(rules->write_lock));
 	if (rules->dead_flag != 1)
 	{
-		printf("%lld ", current_timestamp() - rules->start_time);
+		printf("%ld ", current_timestamp() - rules->start_time);
 		printf("%d %s\n", id + 1, message);
 	}
 	pthread_mutex_unlock(&(rules->write_lock));
