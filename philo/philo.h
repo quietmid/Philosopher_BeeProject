@@ -6,7 +6,7 @@
 /*   By: jlu <jlu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 18:34:19 by jlu               #+#    #+#             */
-/*   Updated: 2024/05/03 18:40:01 by jlu              ###   ########.fr       */
+/*   Updated: 2024/05/06 19:38:02 by jlu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ typedef struct s_philo
 	int				meal_ate;
 	int				l_fork;
 	int				r_fork;
+	bool			dead;
 	bool			full;
 	long long		t_last_meal;
 	pthread_t		thread;
@@ -65,7 +66,8 @@ typedef struct s_data
 	pthread_mutex_t	write_lock;
 	pthread_mutex_t	meal_lock;
 	pthread_mutex_t	dead_lock;
-	t_philo		philo[200];
+	pthread_mutex_t	alleat_lock;
+	t_philo			philo[200];
 }		t_data;
 
 //typedef enum State
@@ -102,7 +104,10 @@ void		sleeper(t_data *r, long int time);
 int		philo_rountine(t_data *rules);
 void	*p_day(void *void_philo);
 void	p_eat(t_philo *philo);
+//int		death_checker(t_data *r, t_philo *p);
+//int		meal_watcher(t_data *r, t_philo *p);
 void	death_checker(t_data *r, t_philo *p);
 void	end_rountine(t_data *r, t_philo *p);
+//void	*watcher(void *void_philo);
 
 #endif

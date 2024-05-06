@@ -6,7 +6,7 @@
 /*   By: jlu <jlu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 13:40:34 by jlu               #+#    #+#             */
-/*   Updated: 2024/04/30 20:09:12 by jlu              ###   ########.fr       */
+/*   Updated: 2024/05/06 19:38:22 by jlu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ void	init_thinker(t_data *rules)
 		rules->philo[i].t_last_meal = 0;
 		rules->philo[i].data = rules;
 		rules->philo[i].full = false;
+		rules->philo[i].dead = false;
 	}
 }
 
@@ -57,6 +58,8 @@ int	init_mutex(t_data *rules)
 	if (pthread_mutex_init(&(rules->meal_lock), NULL))
 		return (1);
 	if (pthread_mutex_init(&(rules->dead_lock), NULL))
+		return (1);
+	if (pthread_mutex_init(&(rules->alleat_lock), NULL))
 		return (1);
 	return (0);
 }
@@ -82,6 +85,8 @@ int	init_data(char *argv[], t_data *rules)
 			error_msg(ERR_AG);
 		rules->num_eat_flag = true;
 	}
+	else
+		rules->num_eat_flag = false;
 	if (init_mutex(rules) == 1)
 		error_msg("You can't lock this!");
 	init_thinker(rules);
