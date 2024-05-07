@@ -6,7 +6,7 @@
 /*   By: jlu <jlu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 18:34:19 by jlu               #+#    #+#             */
-/*   Updated: 2024/05/06 19:38:02 by jlu              ###   ########.fr       */
+/*   Updated: 2024/05/07 15:57:20 by jlu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ typedef struct s_philo
 	int				r_fork;
 	bool			dead;
 	bool			full;
+	bool			fork_l;
+	bool			fork_r;
 	long long		t_last_meal;
 	pthread_t		thread;
 	struct s_data 	*data;
@@ -99,6 +101,11 @@ int		init_mutex(t_data *rules);
 long int	current_timestamp(void);
 long int	time_diff(long int l_eat, long int now);
 void		sleeper(t_data *r, long int time);
+
+// mutex
+void	put_downforks(pthread_mutex_t *l_fork, pthread_mutex_t *r_fork);
+void	eating(t_data *r, t_philo *p);
+void	all_putdown(t_data *r, t_philo *p);
 
 //threading
 int		philo_rountine(t_data *rules);

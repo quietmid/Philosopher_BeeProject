@@ -6,7 +6,7 @@
 #    By: jlu <jlu@student.hive.fi>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/24 17:57:19 by jlu               #+#    #+#              #
-#    Updated: 2024/05/06 18:53:44 by jlu              ###   ########.fr        #
+#    Updated: 2024/05/07 15:20:09 by jlu              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,8 @@ SRC = philo.c \
 	  ft_atol.c \
 	  ft_calloc.c \
 	  action_print.c \
-
+	  mutex.c \
+	  
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
 

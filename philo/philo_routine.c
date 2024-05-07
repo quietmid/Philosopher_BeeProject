@@ -6,11 +6,22 @@
 /*   By: jlu <jlu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 15:43:42 by jlu               #+#    #+#             */
-/*   Updated: 2024/05/06 20:39:49 by jlu              ###   ########.fr       */
+/*   Updated: 2024/05/07 16:00:29 by jlu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+int	meal_time_checker(t_data *r, t_philo *p)
+{
+	if (time_diff(p->t_last_meal, current_timestamp()) > r->time_die)
+	{
+		action_print(r, p->id, DEATH);
+		p->dead = true;
+		return (1);
+	}
+	return (0);
+}
 
 void	death_checker(t_data *r, t_philo *p)
 {
@@ -22,14 +33,9 @@ void	death_checker(t_data *r, t_philo *p)
 		while (++i < r->num_philo && !(r->dead_flag))
 		{
 			pthread_mutex_lock(&(r->meal_lock));
-			if (time_diff(p[i].t_last_meal, current_timestamp()) > r->time_die)
-			{
-				action_print(r, i, DEATH);
-				pthread_mutex_lock(&(r->dead_lock));
-				p[i].dead = true;
-				r->dead_flag = true;
-				pthread_mutex_unlock(&(r->dead_lock));
-			}
+			pthread_mutex_lock(&(r->dead_lock));
+			r->dead_flag = meal_time_checker(r, p);
+			pthread_mutex_unlock(&(r->dead_lock));
 			pthread_mutex_unlock(&(r->meal_lock));
 			usleep(150);
 		}
@@ -40,10 +46,7 @@ void	death_checker(t_data *r, t_philo *p)
 			i++;
 		pthread_mutex_lock(&(r->alleat_lock));
 		if (i == r->num_philo)
-		{
-			printf("EVERYONE ATE!\n");
 			r->all_ate = true;
-		}
 		pthread_mutex_unlock(&(r->alleat_lock));
 	}
 }
@@ -54,6 +57,7 @@ void	p_eat(t_philo *philo)
 
 	rules = philo->data;
 	pthread_mutex_lock(&(rules->fork[philo->l_fork]));
+	philo->fork_l = true;
 	action_print(rules, philo->id, FORK);
 	if (rules->num_philo == 1)
 	{
@@ -62,53 +66,13 @@ void	p_eat(t_philo *philo)
 		return ;
 	}
 	pthread_mutex_lock(&(rules->fork[philo->r_fork]));
+	philo->fork_r = true;
 	action_print(rules, philo->id, FORK);
-	pthread_mutex_lock(&(rules->meal_lock));
-	action_print(rules, philo->id, EAT);
-	philo->t_last_meal = current_timestamp();
-	(philo->meal_ate)++;
-	if (rules->num_eat_flag)
-		if (philo->meal_ate == rules->num_eat)
-		{
-			philo->full = true;
-			//printf("%d is full\n", philo->id);
-		}
-	pthread_mutex_unlock(&(rules->meal_lock));
+	eating(rules, philo);
 	sleeper(rules, rules->time_eat);
-	pthread_mutex_unlock(&(rules->fork[philo->l_fork]));
-	pthread_mutex_unlock(&(rules->fork[philo->r_fork]));
+	put_downforks(&(rules->fork[philo->l_fork]), &(rules->fork[philo->r_fork]));
 }
 
-//void	p_eat(t_philo *philo)
-//{
-//	t_data *rules;
-
-//	rules = philo->data;
-//	if (pthread_mutex_lock(&(rules->fork[philo->l_fork])))
-//		error_msg(ERR_MX);
-//	action_print(rules, philo->id, FORK);
-//	if (rules->num_philo == 1)
-//	{
-//		sleeper(rules, rules->time_die);
-//		pthread_mutex_unlock(&(rules->fork[philo->l_fork]));
-//		return ;
-//	}
-//	if (pthread_mutex_lock(&(rules->fork[philo->r_fork])))
-//		error_msg(ERR_MX);
-//	action_print(rules, philo->id, FORK);
-//	if (pthread_mutex_lock(&(rules->meal_lock)))
-//		error_msg(ERR_MX);
-//	action_print(rules, philo->id, EAT);
-//	philo->t_last_meal = current_timestamp();
-//	if (pthread_mutex_unlock(&(rules->meal_lock)))
-//		error_msg(ERR_MX);
-//	sleeper(rules, rules->time_eat);
-//	(philo->meal_ate)++;
-//	if (pthread_mutex_unlock(&(rules->fork[philo->l_fork])))
-//		error_msg(ERR_MX);
-//	if (pthread_mutex_unlock(&(rules->fork[philo->r_fork])))
-//		error_msg(ERR_MX);
-//}
 void	*p_day(void *void_philo)
 {
 	t_philo		*philo;
@@ -118,19 +82,20 @@ void	*p_day(void *void_philo)
 	rules = philo->data;
 	if (philo->id % 2)
 		usleep((rules->time_sleep)/2);
-	//while (!(rules->dead_flag) && !(rules->all_ate))
 	while (philo->dead == false && philo->full == false)
 	{
-		p_eat(philo);
-		//if (rules->all_ate == true)
-		//{
-		//	printf("id: %d everyone ate!\n", philo->id);
-		//	break ;
-		//}
-		action_print(rules, philo->id, SLEEP); // they sleep first
-		sleeper(rules, rules->time_sleep);
-		action_print(rules, philo->id, THINK); //they think
+		if (rules->all_ate == false)
+		{
+			p_eat(philo);
+			action_print(rules, philo->id, SLEEP); // they sleep first
+			sleeper(rules, rules->time_sleep);
+			action_print(rules, philo->id, THINK); //they think
+		}
+		else
+			break ;
 	}
+	if (rules->dead_flag || rules->all_ate)
+		all_putdown(rules, philo);
 	return(NULL);
 }
 void	end_rountine(t_data *r, t_philo *p)
