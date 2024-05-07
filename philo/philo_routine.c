@@ -6,7 +6,7 @@
 /*   By: jlu <jlu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 15:43:42 by jlu               #+#    #+#             */
-/*   Updated: 2024/05/07 16:00:29 by jlu              ###   ########.fr       */
+/*   Updated: 2024/05/07 18:24:20 by jlu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,8 @@ void	p_eat(t_philo *philo)
 	eating(rules, philo);
 	sleeper(rules, rules->time_eat);
 	put_downforks(&(rules->fork[philo->l_fork]), &(rules->fork[philo->r_fork]));
+	if (rules->dead_flag || rules->all_ate)
+		all_putdown(rules, philo);
 }
 
 void	*p_day(void *void_philo)
@@ -94,37 +96,34 @@ void	*p_day(void *void_philo)
 		else
 			break ;
 	}
-	if (rules->dead_flag || rules->all_ate)
-		all_putdown(rules, philo);
 	return(NULL);
 }
-void	end_rountine(t_data *r, t_philo *p)
-{
-	int i;
+//void	end_rountine(t_data *r, t_philo *p)
+//{
+//	int i;
 
-	i = -1;
-	while (++i < r->num_philo)
-	{
-		if(pthread_join(p[i].thread, NULL))
-			error_msg("thread failed");
-	}
-	i = -1;
-	while (++i < r->num_philo)
-		pthread_mutex_destroy(&(r->fork[i]));
-	pthread_mutex_destroy(&(r->write_lock));
-}
+//	i = -1;
+//	while (++i < r->num_philo)
+//	{
+//		if(pthread_join(p[i].thread, NULL))
+//			error_msg("thread failed");
+//	}
+//	i = -1;
+//	while (++i < r->num_philo)
+//		pthread_mutex_destroy(&(r->fork[i]));
+//	pthread_mutex_destroy(&(r->write_lock));
+//	pthread_mutex_destroy(&(r->dead_lock));
+//	pthread_mutex_destroy(&(r->alleat_lock));
+//}
 
 int	philo_rountine(t_data *rules)
 {
 	int 		i;
-	//pthread_t	watch;
 	t_philo 	*philo;
 
 	i = 0;
 	philo = rules->philo;
 	rules->start_time = current_timestamp();
-	//if (pthread_create(&watch, NULL, &watcher, &rules))
-	//	error_msg("Watcher Thread");
 	while (i < rules->num_philo)
 	{
 		if (pthread_create(&(philo[i].thread), NULL, &p_day, &(philo[i])))
@@ -132,17 +131,13 @@ int	philo_rountine(t_data *rules)
 		philo[i].t_last_meal = current_timestamp();
 		i++;
 	}
-	//if (pthread_join(watch, NULL))
-	//	error_msg("watcher join fail");
-	//i = 0;
-	//while (i < rules->num_philo)
-	//{
-	//	if (pthread_join(philo[i].thread, NULL))
-	//		error_msg("join failed");
-	//	i++;
-	//}
-	death_checker(rules, rules->philo); // monitor death and num_eat
-	end_rountine(rules, philo); 
-	// need to destroy all the mutex ?
+	death_checker(rules, rules->philo);
+	i = -1;
+	while (++i < rules->num_philo)
+	{
+		if(pthread_join(philo[i].thread, NULL))
+			error_msg("thread failed");
+	}
+	end_rountine(rules);
 	return (0);
 }

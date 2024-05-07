@@ -6,7 +6,7 @@
 /*   By: jlu <jlu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 18:34:19 by jlu               #+#    #+#             */
-/*   Updated: 2024/05/07 15:57:20 by jlu              ###   ########.fr       */
+/*   Updated: 2024/05/07 18:23:42 by jlu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,10 +111,8 @@ void	all_putdown(t_data *r, t_philo *p);
 int		philo_rountine(t_data *rules);
 void	*p_day(void *void_philo);
 void	p_eat(t_philo *philo);
-//int		death_checker(t_data *r, t_philo *p);
-//int		meal_watcher(t_data *r, t_philo *p);
 void	death_checker(t_data *r, t_philo *p);
-void	end_rountine(t_data *r, t_philo *p);
-//void	*watcher(void *void_philo);
+void	end_rountine(t_data *r);
+int		meal_time_checker(t_data *r, t_philo *p);
 
 #endif
