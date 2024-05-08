@@ -6,7 +6,7 @@
 /*   By: jlu <jlu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 18:34:19 by jlu               #+#    #+#             */
-/*   Updated: 2024/05/07 18:23:42 by jlu              ###   ########.fr       */
+/*   Updated: 2024/05/08 22:10:43 by jlu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,10 @@
 # define THINK "is thinking"
 # define DEATH "died"
 
+//debugging
+#define D_LFORK "dropped LEFT FORK"
+#define D_RFORK "dropped RIGHT FORK"
+
 struct s_philo;
 
 typedef struct s_philo
@@ -50,6 +54,8 @@ typedef struct s_philo
 	bool			fork_r;
 	long long		t_last_meal;
 	pthread_t		thread;
+	//pthread_mutex_t		p_deadlock;
+	//pthread_mutex_t		p_meallock;
 	struct s_data 	*data;
 }		t_philo;
 
@@ -68,6 +74,8 @@ typedef struct s_data
 	pthread_mutex_t	write_lock;
 	pthread_mutex_t	meal_lock;
 	pthread_mutex_t	dead_lock;
+	pthread_mutex_t	deadflag_lock;
+	pthread_mutex_t	p_lock;
 	pthread_mutex_t	alleat_lock;
 	t_philo			philo[200];
 }		t_data;
@@ -94,7 +102,7 @@ void	ft_bzero(void *s, size_t n);
 // initizalizer
 
 int		init_data(char *argv[], t_data *rules);
-void	init_thinker(t_data *rules);
+int		init_thinker(t_data *rules);
 int		init_mutex(t_data *rules);
 
 // utils
@@ -103,9 +111,15 @@ long int	time_diff(long int l_eat, long int now);
 void		sleeper(t_data *r, long int time);
 
 // mutex
-void	put_downforks(pthread_mutex_t *l_fork, pthread_mutex_t *r_fork);
+void	put_downforks(pthread_mutex_t *l_fork, pthread_mutex_t *r_fork, t_philo *p);
 void	eating(t_data *r, t_philo *p);
 void	all_putdown(t_data *r, t_philo *p);
+bool 	is_dead(t_data *r);
+bool 	is_full(t_data *r);
+//bool 	p_is_full(t_philo *p);
+//bool 	p_is_dead(t_philo *p);
+bool 	p_is_full(t_philo *p, t_data *r);
+bool 	p_is_dead(t_philo *p, t_data *r);
 
 //threading
 int		philo_rountine(t_data *rules);

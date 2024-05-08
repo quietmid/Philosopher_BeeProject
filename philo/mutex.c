@@ -6,16 +6,24 @@
 /*   By: jlu <jlu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 15:02:30 by jlu               #+#    #+#             */
-/*   Updated: 2024/05/07 17:03:22 by jlu              ###   ########.fr       */
+/*   Updated: 2024/05/08 20:58:38 by jlu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	put_downforks(pthread_mutex_t *l_fork, pthread_mutex_t *r_fork)
+void	put_downforks(pthread_mutex_t *l_fork, pthread_mutex_t *r_fork, t_philo *p)
 {
-	pthread_mutex_unlock(l_fork);
-	pthread_mutex_unlock(r_fork);
+	if (p->fork_l == true)
+	{
+		pthread_mutex_unlock(l_fork);
+		p->fork_l = false;
+	}
+	if (p->fork_r == true)
+	{
+		pthread_mutex_unlock(r_fork);
+		p->fork_r = false;
+	}
 }
 
 void	eating(t_data *r, t_philo *p)
@@ -34,13 +42,13 @@ void	all_putdown(t_data *r, t_philo *p)
 	if (p->fork_l == true)
 	{
 		pthread_mutex_unlock(&(r->fork[p->l_fork]));
-		//printf("l fork put down\n");
+		printf("%d has l fork dropped\n", p->id);
 		p->fork_l = false;
 	}
 	if (p->fork_r == true)
 	{
 		pthread_mutex_unlock(&(r->fork[p->r_fork]));
-		//printf("r fork put down\n");
+		printf("%d has r fork dropped\n", p->id);
 		p->fork_r = false;
 	}
 }
