@@ -1,186 +1,23 @@
-1 1 has taken a fork
-1 1 has taken a fork
-1 1 is eating
-2 3 has taken a fork
-2 3 has taken a fork
-2 3 is eating
-4 5 has taken a fork
-4 5 has taken a fork
-4 5 is eating
-5 7 has taken a fork
-5 7 has taken a fork
-5 7 is eating
-6 9 has taken a fork
-6 9 has taken a fork
-6 9 is eating
-12 1 died
-12 7 is sleeping
-12 3 is sleeping
-12 6 has taken a fork
-12 10 has taken a fork
-12 10 has taken a fork
-12 10 is eating
-12 10 is sleeping
-12 10 is thinking
-12 9 is sleeping
-12 1 is sleeping
-12 1 is thinking
-12 6 has taken a fork
-12 6 is eating
-12 7 is thinking
-12 7 has taken a fork
-12 7 has taken a fork
-12 7 is eating
-12 8 has taken a fork
-12 8 has taken a fork
-12 8 is eating
-12 4 has taken a fork
-12 4 has taken a fork
-12 4 is eating
-12 4 is sleeping
-12 3 is thinking
-12 9 is thinking
-12 7 is sleeping
-12 7 is thinking
-12 7 has taken a fork
-12 7 has taken a fork
-12 7 is eating
-12 10 has taken a fork
-12 3 has taken a fork
-12 9 has taken a fork
-12 9 has taken a fork
-12 9 is eating
-12 5 is sleeping
-12 4 is thinking
-12 4 has taken a fork
-12 7 is sleeping
-12 7 is thinking
-12 7 has taken a fork
-12 7 has taken a fork
-12 8 is sleeping
-12 8 is thinking
-12 8 has taken a fork
-12 2 has taken a fork
-12 2 has taken a fork
-12 9 is sleeping
-12 9 is thinking
-12 5 is thinking
-12 5 has taken a fork
-12 6 is sleeping
-12 6 is thinking
-12 7 is eating
-12 7 is sleeping
-12 7 is thinking
-12 10 has taken a fork
-12 10 is eating
-12 10 is sleeping
-12 10 is thinking
-12 10 has taken a fork
-12 10 has taken a fork
-12 10 is eating
-12 10 is sleeping
-12 10 is thinking
-12 2 is eating
-12 2 is sleeping
-12 2 is thinking
-12 3 has taken a fork
-12 3 is eating
-12 8 has taken a fork
-12 2 has taken a fork
-12 8 is eating
-12 9 has taken a fork
-12 9 has taken a fork
-12 3 is sleeping
-12 3 is thinking
-12 2 has taken a fork
-12 10 has taken a fork
-12 8 is sleeping
-12 8 is thinking
-12 4 has taken a fork
-12 6 has taken a fork
-12 9 is eating
-12 9 is sleeping
-12 9 is thinking
-12 9 has taken a fork
-12 9 has taken a fork
-12 9 is eating
-12 9 is sleeping
-12 9 is thinking
-12 2 is eating
-12 2 is sleeping
-12 2 is thinking
-12 2 has taken a fork
-12 8 has taken a fork
-12 8 has taken a fork
-12 4 is eating
-12 2 has taken a fork
-12 8 is eating
-12 10 has taken a fork
-12 4 is sleeping
-12 4 is thinking
-12 3 has taken a fork
-12 2 is eating
-12 5 has taken a fork
-12 2 is sleeping
-12 8 is sleeping
-12 10 is eating
-12 2 is thinking
-12 8 is thinking
-12 8 has taken a fork
-12 8 has taken a fork
-12 10 is sleeping
-12 10 is thinking
-12 3 has taken a fork
-12 5 is eating
-12 8 is eating
-12 5 is sleeping
-12 6 has taken a fork
-12 3 is eating
-12 8 is sleeping
-12 3 is sleeping
-12 8 is thinking
-12 3 is thinking
-12 6 is eating
-12 6 is sleeping
-12 6 is thinking
-12 2 has taken a fork
-12 2 has taken a fork
-12 2 is eating
-12 5 is thinking
-12 4 has taken a fork
-12 3 has taken a fork
-12 3 has taken a fork
-12 3 is eating
-12 3 is sleeping
-12 5 has taken a fork
-12 6 has taken a fork
-12 3 is thinking
-12 2 is sleeping
-12 2 is thinking
-12 4 has taken a fork
-12 4 is eating
-12 4 is sleeping
-12 4 is thinking
-12 5 has taken a fork
-12 5 is eating
-12 5 is sleeping
-12 4 has taken a fork
-12 4 has taken a fork
-12 4 is eating
-12 5 is thinking
-12 6 has taken a fork
-12 6 is eating
-12 6 is sleeping
-12 5 has taken a fork
-12 5 has taken a fork
-12 5 is eating
-12 6 is thinking
-12 4 is sleeping
-12 4 is thinking
-12 5 is sleeping
-13 5 is thinking
-13 6 has taken a fork
-13 6 has taken a fork
-13 6 is eating
-13 6 is sleeping
-13 6 is thinking
+0 1 has taken a fork
+0 1 has taken a fork
+0 1 is eating
+0 3 has taken a fork
+0 3 has taken a fork
+0 3 is eating
+200 3 is sleeping
+200 4 has taken a fork
+200 4 has taken a fork
+200 4 is eating
+200 1 is sleeping
+200 2 has taken a fork
+200 2 has taken a fork
+200 2 is eating
+300 1 is thinking
+300 3 is thinking
+311 1 died
+311 3 has taken a fork
+311 3 has taken a fork
+311 3 is eating
+311 1 has taken a fork
+311 1 has taken a fork
+311 1 is eating

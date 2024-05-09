@@ -6,7 +6,7 @@
 /*   By: jlu <jlu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 15:43:42 by jlu               #+#    #+#             */
-/*   Updated: 2024/05/08 22:44:22 by jlu              ###   ########.fr       */
+/*   Updated: 2024/05/09 06:24:31 by jlu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,8 @@ void	p_eat(t_philo *philo)
 	t_data *rules;
 
 	rules = philo->data;
+	if (p_is_dead(philo, rules))
+		return ;
 	pthread_mutex_lock(&(rules->fork[philo->l_fork]));
 	philo->fork_l = true;
 	action_print(rules, philo->id, FORK);
@@ -115,6 +117,8 @@ void	*p_day(void *void_philo)
 		if (!(is_full(rules)))
 		{
 			p_eat(philo);
+			if (is_dead(rules) || is_full(rules))
+				break ;
 			action_print(rules, philo->id, SLEEP);
 			sleeper(rules, rules->time_sleep);
 			action_print(rules, philo->id, THINK);
