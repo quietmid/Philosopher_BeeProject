@@ -6,7 +6,7 @@
 /*   By: jlu <jlu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 15:10:31 by jlu               #+#    #+#             */
-/*   Updated: 2024/05/07 18:23:29 by jlu              ###   ########.fr       */
+/*   Updated: 2024/05/10 13:30:13 by jlu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	end_rountine(t_data *r)
 		pthread_mutex_destroy(&(r->fork[i]));
 	pthread_mutex_destroy(&(r->write_lock));
 	pthread_mutex_destroy(&(r->dead_lock));
-	pthread_mutex_destroy(&(r->alleat_lock));
+	pthread_mutex_destroy(&(r->meal_lock));
 }
 
 int	main(int argc, char *argv[])

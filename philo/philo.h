@@ -6,7 +6,7 @@
 /*   By: jlu <jlu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 18:34:19 by jlu               #+#    #+#             */
-/*   Updated: 2024/05/08 22:10:43 by jlu              ###   ########.fr       */
+/*   Updated: 2024/05/10 14:08:24 by jlu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,6 @@ typedef struct s_data
 	pthread_mutex_t	write_lock;
 	pthread_mutex_t	meal_lock;
 	pthread_mutex_t	dead_lock;
-	pthread_mutex_t	deadflag_lock;
 	pthread_mutex_t	p_lock;
 	pthread_mutex_t	alleat_lock;
 	t_philo			philo[200];
@@ -124,7 +123,8 @@ bool 	p_is_dead(t_philo *p, t_data *r);
 //threading
 int		philo_rountine(t_data *rules);
 void	*p_day(void *void_philo);
-void	p_eat(t_philo *philo);
+// void	p_eat(t_philo *philo);
+int	p_eat(t_philo *philo);
 void	death_checker(t_data *r, t_philo *p);
 void	end_rountine(t_data *r);
 int		meal_time_checker(t_data *r, t_philo *p);

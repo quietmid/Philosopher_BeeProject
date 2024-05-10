@@ -6,7 +6,7 @@
 /*   By: jlu <jlu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 13:40:34 by jlu               #+#    #+#             */
-/*   Updated: 2024/05/08 22:10:50 by jlu              ###   ########.fr       */
+/*   Updated: 2024/05/10 14:00:28 by jlu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ int	init_thinker(t_data *r)
 		r->philo[i].data = r;
 		r->philo[i].full = false;
 		r->philo[i].dead = false;
+		r->philo[i].fork_l = false;
+		r->philo[i].fork_r = false;
 		//if (pthread_mutex_init(&(r->philo[i].p_deadlock), NULL))
 		//	return (1);
 		//if (pthread_mutex_init(&(r->philo[i].p_meallock), NULL))
@@ -63,12 +65,10 @@ int	init_mutex(t_data *rules)
 		return (1);
 	if (pthread_mutex_init(&(rules->dead_lock), NULL))
 		return (1);
-	if (pthread_mutex_init(&(rules->alleat_lock), NULL))
-		return (1);
-	if (pthread_mutex_init(&(rules->p_lock), NULL))
-		return (1);
-	if (pthread_mutex_init(&(rules->deadflag_lock), NULL))
-		return (1);
+	// if (pthread_mutex_init(&(rules->alleat_lock), NULL))
+	// 	return (1);
+	// if (pthread_mutex_init(&(rules->p_lock), NULL))
+	// 	return (1);
 	return (0);
 }
 
@@ -78,8 +78,8 @@ int	init_data(char *argv[], t_data *rules)
 	rules->time_die = ft_atol(argv[2]);
 	rules->time_eat = ft_atol(argv[3]);
 	rules->time_sleep = ft_atol(argv[4]);
-	rules->dead_flag = 0;
 	rules->start_time = 0;
+	rules->dead_flag = false;
 	rules->all_ate = false;
 	if (rules->num_philo < 1 || rules->time_die < 1 \
 	|| rules->time_eat < 1 || rules->time_sleep < 1)
@@ -90,7 +90,7 @@ int	init_data(char *argv[], t_data *rules)
 	{
 		rules->num_eat = ft_atol(argv[5]);
 		if (rules->num_eat <= 0)
-			error_msg(ERR_AG);
+			error_msg(ERR_AG); // maybe update my atol so it checks against zero
 		rules->num_eat_flag = true;
 	}
 	else
