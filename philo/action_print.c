@@ -6,7 +6,7 @@
 /*   By: jlu <jlu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 14:09:00 by jlu               #+#    #+#             */
-/*   Updated: 2024/05/08 22:30:57 by jlu              ###   ########.fr       */
+/*   Updated: 2024/05/10 18:14:07 by jlu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,11 @@ long int	error_msg(char *err)
 void	action_print(t_data *rules, int id, char *message)
 {
 	pthread_mutex_lock(&(rules->write_lock));
-	//if (!(is_dead(rules)) && !(is_full(rules)))
-	//{
+	if (!is_exit(rules))
+	{
 		printf("%ld ", current_timestamp() - rules->start_time);
 		printf("%d %s\n", id + 1, message);
-	//}
+	}
 	pthread_mutex_unlock(&(rules->write_lock));
 }
 

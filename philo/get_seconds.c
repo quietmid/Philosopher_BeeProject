@@ -6,7 +6,7 @@
 /*   By: jlu <jlu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 21:49:59 by jlu               #+#    #+#             */
-/*   Updated: 2024/05/08 20:42:57 by jlu              ###   ########.fr       */
+/*   Updated: 2024/05/10 18:18:10 by jlu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	sleeper(t_data *r, long int time)
 	long int	i;
 
 	i = current_timestamp();
-	while (!(is_dead(r)))
+	while (!is_exit(r))
 	{
 		if (time_diff(i, current_timestamp()) >= time)
 			break ;

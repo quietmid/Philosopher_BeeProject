@@ -6,7 +6,7 @@
 /*   By: jlu <jlu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 13:40:34 by jlu               #+#    #+#             */
-/*   Updated: 2024/05/10 14:00:28 by jlu              ###   ########.fr       */
+/*   Updated: 2024/05/10 18:18:40 by jlu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,7 @@ int	init_data(char *argv[], t_data *rules)
 	rules->time_eat = ft_atol(argv[3]);
 	rules->time_sleep = ft_atol(argv[4]);
 	rules->start_time = 0;
-	rules->dead_flag = false;
-	rules->all_ate = false;
+	rules->exit = false;
 	if (rules->num_philo < 1 || rules->time_die < 1 \
 	|| rules->time_eat < 1 || rules->time_sleep < 1)
 		error_msg(ERR_AG);

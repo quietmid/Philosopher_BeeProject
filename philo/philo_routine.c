@@ -6,7 +6,7 @@
 /*   By: jlu <jlu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 15:43:42 by jlu               #+#    #+#             */
-/*   Updated: 2024/05/10 14:30:23 by jlu              ###   ########.fr       */
+/*   Updated: 2024/05/10 18:16:54 by jlu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,38 +33,69 @@ void	death_checker(t_data *r, t_philo *p)
 {
 	int i;
 
-	while (!is_full(r))
+	while (1)
 	{
-		i = -1;
+		usleep(150);
 		if (r->num_eat_flag)
 		{
+			i = -1;
 			while (++i < r->num_philo && p_is_full(&p[i], r))
 				;
 			if (i == r->num_philo)
 			{
 				pthread_mutex_lock(&(r->dead_lock));
-				r->all_ate = true;
+				r->exit = true;
 				pthread_mutex_unlock(&(r->dead_lock));
+				break ;
 			}
 		}
 		i = -1;
-		while (++i < r->num_philo && !is_dead(r)) // here I believe it is because I m using the deadlock to check the while loop but also using the deadlock inside this while loop.
+		while (++i < r->num_philo) 
 		{
-				pthread_mutex_lock(&(r->dead_lock));
-				r->dead_flag = meal_time_checker(r, p);
-				pthread_mutex_unlock(&(r->dead_lock));
-				// usleep(150);
+			pthread_mutex_lock(&(r->dead_lock));
+			r->exit = meal_time_checker(r, p);
+			pthread_mutex_unlock(&(r->dead_lock));
+			if (is_exit(r))
+				break ;
 		}
-		if (is_dead(r))
-			break ;
 	}
 }
+// void	death_checker(t_data *r, t_philo *p)
+// {
+// 	int i;
+
+// 	while (!is_full(r))
+// 	{
+// 		i = -1;
+// 		if (r->num_eat_flag)
+// 		{
+// 			while (++i < r->num_philo && p_is_full(&p[i], r))
+// 				;
+// 			if (i == r->num_philo)
+// 			{
+// 				pthread_mutex_lock(&(r->dead_lock));
+// 				r->all_ate = true;
+// 				pthread_mutex_unlock(&(r->dead_lock));
+// 			}
+// 		}
+// 		i = -1;
+// 		while (++i < r->num_philo && !is_dead(r)) // here I believe it is because I m using the deadlock to check the while loop but also using the deadlock inside this while loop.
+// 		{
+// 				pthread_mutex_lock(&(r->dead_lock));
+// 				r->dead_flag = meal_time_checker(r, p);
+// 				pthread_mutex_unlock(&(r->dead_lock));
+// 				// usleep(150);
+// 		}
+// 		if (is_dead(r))
+// 			break ;
+// 	}
+// }
 int	p_eat(t_philo *p)
 {
 	t_data *r;
 
 	r = p->data;
-	if (is_dead(r) || is_full(r) || p_is_dead(p, r) || p_is_full(p, r))
+	if (is_exit(r)|| p_is_dead(p, r) || p_is_full(p, r))
 		return (1);
 	pthread_mutex_lock(&(r->fork[p->l_fork]));
 	p->fork_l = true;
@@ -138,19 +169,14 @@ void	*p_day(void *void_philo)
 		sleeptime = (rules->time_sleep)/2;
 	if (philo->id % 2)
 		sleeper(rules, sleeptime);
-	while (!p_is_dead(philo, rules) && !is_dead(rules))
+	while (!p_is_dead(philo, rules) && !is_exit(rules))
 	//while (!(p_is_dead(philo)) && !(p_is_full(philo)))
 	{
-		if (!is_full(rules))
-		{
-			if (p_eat(philo))
-				break ; //this way, if its one philo, it ends
-			action_print(rules, philo->id, SLEEP);
-			sleeper(rules, rules->time_sleep);
-			action_print(rules, philo->id, THINK);
-		}
-		else
-			break ;
+		if (p_eat(philo))
+			break ; //this way, if its one philo, it ends
+		action_print(rules, philo->id, SLEEP);
+		sleeper(rules, rules->time_sleep);
+		action_print(rules, philo->id, THINK);
 	}
 	all_putdown(rules, philo);
 	return (NULL);
