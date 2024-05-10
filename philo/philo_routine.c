@@ -6,7 +6,7 @@
 /*   By: jlu <jlu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 15:43:42 by jlu               #+#    #+#             */
-/*   Updated: 2024/05/08 22:44:22 by jlu              ###   ########.fr       */
+/*   Updated: 2024/05/08 22:35:52 by jlu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ int	meal_time_checker(t_data *r, t_philo *p)
 	pthread_mutex_lock(&(r->meal_lock));
 	if (time_diff(p->t_last_meal, current_timestamp()) > r->time_die)
 	{
+		printf("here\n");
 		action_print(r, p->id, DEATH);
 		p->dead = true;
 		pthread_mutex_unlock(&(r->meal_lock));
@@ -79,16 +80,16 @@ void	p_eat(t_philo *philo)
 	eating(rules, philo);
 	sleeper(rules, rules->time_eat);
 	//debugg
-	//pthread_mutex_unlock(&(rules->fork[philo->l_fork]));
-	//philo->fork_l = false;
-	//action_print(rules, philo->id, D_LFORK);
-	//pthread_mutex_unlock(&(rules->fork[philo->r_fork]));
-	//philo->fork_r = false;
-	//action_print(rules, philo->id, D_RFORK);
+	pthread_mutex_unlock(&(rules->fork[philo->l_fork]));
+	philo->fork_l = false;
+	action_print(rules, philo->id, D_LFORK);
+	pthread_mutex_unlock(&(rules->fork[philo->r_fork]));
+	philo->fork_r = false;
+	action_print(rules, philo->id, D_RFORK);
 	//debugg
-	put_downforks(&(rules->fork[philo->l_fork]), &(rules->fork[philo->r_fork]), philo);
+	//put_downforks(&(rules->fork[philo->l_fork]), &(rules->fork[philo->r_fork]), philo);
 	if (is_full(rules) || is_dead(rules))
-		all_putdown(rules, philo); // do i need this?
+		all_putdown(rules, philo);
 }
 
 void	*p_day(void *void_philo)
@@ -105,7 +106,7 @@ void	*p_day(void *void_philo)
 		sleeptime = (rules->time_sleep)/2;
 	if (philo->id % 2)
 	{
-		//action_print(rules, philo->id, " rest first");
+		action_print(rules, philo->id, " rest first");
 		sleeper(rules, sleeptime);
 	}
 		//usleep(sleeptime);
