@@ -6,7 +6,7 @@
 /*   By: jlu <jlu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 15:43:42 by jlu               #+#    #+#             */
-/*   Updated: 2024/05/10 14:18:05 by jlu              ###   ########.fr       */
+/*   Updated: 2024/05/10 14:23:38 by jlu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,27 +59,26 @@ void	death_checker(t_data *r, t_philo *p)
 			break ;
 	}
 }
-int	p_eat(t_philo *philo)
+int	p_eat(t_philo *p)
 {
-	t_data *rules;
+	t_data *r;
 
-	rules = philo->data;
-	pthread_mutex_lock(&(rules->fork[philo->l_fork]));
-	philo->fork_l = true;
-	action_print(rules, philo->id, FORK);
-	if (rules->num_philo == 1)
+	r = p->data;
+	pthread_mutex_lock(&(r->fork[p->l_fork]));
+	p->fork_l = true;
+	action_print(r, p->id, FORK);
+	if (r->num_philo == 1)
 	{
-		sleeper(rules, rules->time_die);
-		pthread_mutex_unlock(&(rules->fork[philo->l_fork]));
-		philo->fork_l = false;
-		action_print(rules, philo->id, D_LFORK); // debugg
+		sleeper(r, r->time_die);
+		put_downforks(&(r->fork[p->l_fork]), &(r->fork[p->r_fork]), p);
+		action_print(r, p->id, D_LFORK); // debugg
 		return (1);
 	}
-	pthread_mutex_lock(&(rules->fork[philo->r_fork]));
-	philo->fork_r = true;
-	action_print(rules, philo->id, FORK);
-	eating(rules, philo);
-	sleeper(rules, rules->time_eat);
+	pthread_mutex_lock(&(r->fork[p->r_fork]));
+	p->fork_r = true;
+	action_print(r, p->id, FORK);
+	eating(r, p);
+	sleeper(r, r->time_eat);
 		//debugg
 		// pthread_mutex_unlock(&(rules->fork[philo->l_fork]));
 		// philo->fork_l = false;
@@ -88,7 +87,7 @@ int	p_eat(t_philo *philo)
 		// philo->fork_r = false;
 		// action_print(rules, philo->id, D_RFORK);
 		//debugg
-	put_downforks(&(rules->fork[philo->l_fork]), &(rules->fork[philo->r_fork]), philo);
+	put_downforks(&(r->fork[p->l_fork]), &(r->fork[p->r_fork]), p);
 	return (0);
 }
 // void	p_eat(t_philo *philo)

@@ -6,7 +6,7 @@
 /*   By: jlu <jlu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 15:02:30 by jlu               #+#    #+#             */
-/*   Updated: 2024/05/10 13:38:46 by jlu              ###   ########.fr       */
+/*   Updated: 2024/05/10 14:20:41 by jlu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,13 @@ void	all_putdown(t_data *r, t_philo *p)
 	if (p->fork_l == true)
 	{
 		pthread_mutex_unlock(&(r->fork[p->l_fork]));
-		printf("%d has l fork dropped\n", p->id);
+		// printf("%d has l fork dropped\n", p->id);
 		p->fork_l = false;
 	}
 	if (p->fork_r == true)
 	{
 		pthread_mutex_unlock(&(r->fork[p->r_fork]));
-		printf("%d has r fork dropped\n", p->id);
+		// printf("%d has r fork dropped\n", p->id);
 		p->fork_r = false;
 	}
 }
