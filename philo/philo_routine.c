@@ -6,7 +6,7 @@
 /*   By: jlu <jlu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 15:43:42 by jlu               #+#    #+#             */
-/*   Updated: 2024/05/10 14:23:38 by jlu              ###   ########.fr       */
+/*   Updated: 2024/05/10 14:30:23 by jlu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ int	p_eat(t_philo *p)
 	t_data *r;
 
 	r = p->data;
+	if (is_dead(r) || is_full(r) || p_is_dead(p, r) || p_is_full(p, r))
+		return (1);
 	pthread_mutex_lock(&(r->fork[p->l_fork]));
 	p->fork_l = true;
 	action_print(r, p->id, FORK);
@@ -142,7 +144,7 @@ void	*p_day(void *void_philo)
 		if (!is_full(rules))
 		{
 			if (p_eat(philo))
-				break ;
+				break ; //this way, if its one philo, it ends
 			action_print(rules, philo->id, SLEEP);
 			sleeper(rules, rules->time_sleep);
 			action_print(rules, philo->id, THINK);
