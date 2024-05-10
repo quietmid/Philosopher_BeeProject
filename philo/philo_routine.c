@@ -6,7 +6,11 @@
 /*   By: jlu <jlu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 15:43:42 by jlu               #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2024/05/08 22:35:52 by jlu              ###   ########.fr       */
+=======
+/*   Updated: 2024/05/08 22:44:22 by jlu              ###   ########.fr       */
+>>>>>>> parent of 0e552b0 (when the philosopher died, it will still takes fork and eat. but it should stop)
 /*                                                                            */
 /* ************************************************************************** */
 
