@@ -6,7 +6,7 @@
 /*   By: jlu <jlu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 15:02:30 by jlu               #+#    #+#             */
-/*   Updated: 2024/05/10 14:20:41 by jlu              ###   ########.fr       */
+/*   Updated: 2024/05/14 19:08:19 by jlu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,23 +18,30 @@ void	put_downforks(pthread_mutex_t *l_fork, pthread_mutex_t *r_fork, t_philo *p)
 	{
 		pthread_mutex_unlock(l_fork);
 		p->fork_l = false;
+		// printf("left fork dropped\n");
 	}
 	if (p->fork_r == true)
 	{
 		pthread_mutex_unlock(r_fork);
 		p->fork_r = false;
+		// printf("right fork dropped\n");
 	}
 }
 
-void	eating(t_data *r, t_philo *p)
+int	eating(t_data *r, t_philo *p)
 {
 	pthread_mutex_lock(&(r->meal_lock));
 	action_print(r, p->id, EAT);
 	p->t_last_meal = current_timestamp();
 	(p->meal_ate)++;
 	if (r->num_eat_flag && p->meal_ate == r->num_eat)
-			p->full = true;
+	{
+		p->full = true;
+		pthread_mutex_unlock(&(r->meal_lock));
+		return (1);
+	}
 	pthread_mutex_unlock(&(r->meal_lock));
+	return (0);
 }
 
 void	all_putdown(t_data *r, t_philo *p)

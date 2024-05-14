@@ -6,7 +6,7 @@
 /*   By: jlu <jlu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 18:34:19 by jlu               #+#    #+#             */
-/*   Updated: 2024/05/10 18:16:13 by jlu              ###   ########.fr       */
+/*   Updated: 2024/05/14 19:09:13 by jlu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ void		sleeper(t_data *r, long int time);
 
 // mutex
 void	put_downforks(pthread_mutex_t *l_fork, pthread_mutex_t *r_fork, t_philo *p);
-void	eating(t_data *r, t_philo *p);
+int		eating(t_data *r, t_philo *p);
 void	all_putdown(t_data *r, t_philo *p);
 // bool 	is_dead(t_data *r);
 // bool 	is_full(t_data *r);

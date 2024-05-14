@@ -6,7 +6,7 @@
 /*   By: jlu <jlu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 15:43:42 by jlu               #+#    #+#             */
-/*   Updated: 2024/05/10 18:16:54 by jlu              ###   ########.fr       */
+/*   Updated: 2024/05/14 20:23:34 by jlu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ int	meal_time_checker(t_data *r, t_philo *p)
 	if (time_diff(p->t_last_meal, current_timestamp()) > r->time_die)
 	{
 		action_print(r, p->id, DEATH);
+		// printf("meal time checker2\n");
 		p->dead = true;
 		pthread_mutex_unlock(&(r->meal_lock));
 		// pthread_mutex_unlock(&(r->p_lock));
@@ -28,16 +29,18 @@ int	meal_time_checker(t_data *r, t_philo *p)
 	// pthread_mutex_unlock(&(r->p_lock));
 	return (0);
 }
-
+// need to create two more functions for allp_ate and philo_dead
 void	death_checker(t_data *r, t_philo *p)
 {
 	int i;
 
-	while (1)
+	// printf("death_checker in\n"); // debugg
+	while (!is_exit(r))
 	{
-		usleep(150);
+		// usleep(150);
 		if (r->num_eat_flag)
 		{
+			// printf("Number of Eat flag on!\n"); //debugg
 			i = -1;
 			while (++i < r->num_philo && p_is_full(&p[i], r))
 				;
@@ -46,17 +49,20 @@ void	death_checker(t_data *r, t_philo *p)
 				pthread_mutex_lock(&(r->dead_lock));
 				r->exit = true;
 				pthread_mutex_unlock(&(r->dead_lock));
-				break ;
+				// break ;
 			}
 		}
 		i = -1;
 		while (++i < r->num_philo) 
-		{
+		{	
 			pthread_mutex_lock(&(r->dead_lock));
 			r->exit = meal_time_checker(r, p);
 			pthread_mutex_unlock(&(r->dead_lock));
-			if (is_exit(r))
-				break ;
+		// 	if (is_exit(r))
+		// 	{
+		// 		printf("here\n");
+		// 		break ;
+		// 	}
 		}
 	}
 }
@@ -95,7 +101,7 @@ int	p_eat(t_philo *p)
 	t_data *r;
 
 	r = p->data;
-	if (is_exit(r)|| p_is_dead(p, r) || p_is_full(p, r))
+	if (is_exit(r) || p_is_dead(p, r) || p_is_full(p, r))
 		return (1);
 	pthread_mutex_lock(&(r->fork[p->l_fork]));
 	p->fork_l = true;
@@ -104,12 +110,19 @@ int	p_eat(t_philo *p)
 	{
 		sleeper(r, r->time_die);
 		put_downforks(&(r->fork[p->l_fork]), &(r->fork[p->r_fork]), p);
-		action_print(r, p->id, D_LFORK); // debugg
+		// action_print(r, p->id, D_LFORK); // debugg
 		return (1);
 	}
 	pthread_mutex_lock(&(r->fork[p->r_fork]));
 	p->fork_r = true;
 	action_print(r, p->id, FORK);
+	// if (p->fork_l && p->fork_r)
+	// if (eating(r, p))
+	// {
+	// 	sleeper(r, r->time_eat);
+	// 	put_downforks(&(r->fork[p->l_fork]), &(r->fork[p->r_fork]), p);
+	// 	return (1);
+	// }
 	eating(r, p);
 	sleeper(r, r->time_eat);
 		//debugg
@@ -178,7 +191,7 @@ void	*p_day(void *void_philo)
 		sleeper(rules, rules->time_sleep);
 		action_print(rules, philo->id, THINK);
 	}
-	all_putdown(rules, philo);
+	// all_putdown(rules, philo);
 	return (NULL);
 }
 

@@ -6,7 +6,7 @@
 #    By: jlu <jlu@student.hive.fi>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/24 17:57:19 by jlu               #+#    #+#              #
-#    Updated: 2024/05/08 22:31:48 by jlu              ###   ########.fr        #
+#    Updated: 2024/05/14 15:18:45 by jlu              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,7 +48,7 @@ $(NAME): $(LIBFT) $(OBJECTS)
 		@echo "Compiled with $(BLUE)$(CFLAGS)$(RESET)"
 		@$(CC) $(CFLAGS) -o $(NAME) $(OBJECTS)
 		@echo "$(CYAN)--------------------------------"
-		@echo "To eat or Not to eat, that's"
+		@echo "To eat or Not to eat, that's the question"
 		@echo "$(CYAN)--------------------------------$(RESET)"
 
 $(OBJECTS_DIR)/%.o: ./%.c
