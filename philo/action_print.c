@@ -6,15 +6,17 @@
 /*   By: jlu <jlu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 14:09:00 by jlu               #+#    #+#             */
-/*   Updated: 2024/05/15 17:48:34 by jlu              ###   ########.fr       */
+/*   Updated: 2024/05/15 19:04:12 by jlu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-long int	error_msg(char *err)
+long int	error_msg(char *err, t_data *r)
 {
 	printf("%s\n", err);
+	if (r)
+		end_rountine(r);
 	return (1);
 }
 

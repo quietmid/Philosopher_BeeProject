@@ -6,7 +6,7 @@
 /*   By: jlu <jlu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 18:34:19 by jlu               #+#    #+#             */
-/*   Updated: 2024/05/15 17:19:41 by jlu              ###   ########.fr       */
+/*   Updated: 2024/05/15 19:02:38 by jlu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ typedef struct s_data
 //};
 
 // Functions
-long int	error_msg(char *err);
+long int	error_msg(char *err, t_data *r);
 void		action_print(t_data *rules, int id, char *message);
 
 //parsing

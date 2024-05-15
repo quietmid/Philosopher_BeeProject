@@ -6,7 +6,7 @@
 /*   By: jlu <jlu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 15:43:42 by jlu               #+#    #+#             */
-/*   Updated: 2024/05/15 18:37:59 by jlu              ###   ########.fr       */
+/*   Updated: 2024/05/15 19:03:15 by jlu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,7 +197,7 @@ int	philo_rountine(t_data *rules)
 	while (i < rules->num_philo)
 	{
 		if (pthread_create(&(philo[i].thread), NULL, &p_day, &(philo[i])))
-			error_msg("No thread today"); // clear everything
+			error_msg("No thread today", rules); // clear everything
 		pthread_mutex_lock(&(rules->meal_lock));
 		philo[i].t_last_meal = current_timestamp();
 		pthread_mutex_unlock(&(rules->meal_lock));
@@ -207,9 +207,9 @@ int	philo_rountine(t_data *rules)
 	i = -1;
 	while (++i < rules->num_philo)
 	{
-		pthread_join(philo[i].thread, NULL);
-		//if(pthread_join(philo[i].thread, NULL))
-			//error_msg("thread failed");
+		//pthread_join(philo[i].thread, NULL);
+		if(pthread_join(philo[i].thread, NULL))
+			error_msg("thread failed", rules);
 	}
 	end_rountine(rules);
 	return (0);

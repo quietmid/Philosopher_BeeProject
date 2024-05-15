@@ -6,7 +6,7 @@
 /*   By: jlu <jlu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 15:10:31 by jlu               #+#    #+#             */
-/*   Updated: 2024/05/10 13:30:13 by jlu              ###   ########.fr       */
+/*   Updated: 2024/05/15 19:05:57 by jlu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,11 @@ int	main(int argc, char *argv[])
 	t_data		rules;
 	
 	if (argc < 5 || argc > 6)
-		return (error_msg(ERR_INPUT));
+		return (error_msg(ERR_INPUT, &rules));
 	if (init_data(argv, &rules) == 1)
-		error_msg("Init failed");
+		error_msg("Init failed", &rules);
 	if (philo_rountine(&rules))
-		error_msg("something something");
-	
-	//free struct philo and input
+		error_msg("something something", &rules);
 	return 0;
 }
 

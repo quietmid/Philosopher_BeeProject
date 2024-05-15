@@ -6,7 +6,7 @@
 /*   By: jlu <jlu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 13:40:34 by jlu               #+#    #+#             */
-/*   Updated: 2024/05/15 17:30:24 by jlu              ###   ########.fr       */
+/*   Updated: 2024/05/15 19:00:08 by jlu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,21 +82,21 @@ int	init_data(char *argv[], t_data *rules)
 	rules->exit = false;
 	if (rules->num_philo < 1 || rules->time_die < 1 \
 	|| rules->time_eat < 1 || rules->time_sleep < 1)
-		error_msg(ERR_AG);
+		error_msg(ERR_AG, rules);
 	if (rules->num_philo > 200)
-		error_msg("Too many confucius. It's confusing");
+		error_msg("Too many confucius. It's confusing", rules);
 	if (argv[5])
 	{
 		rules->num_eat = ft_atol(argv[5]);
 		if (rules->num_eat <= 0)
-			error_msg(ERR_AG); // maybe update my atol so it checks against zero
+			error_msg(ERR_AG, rules); // maybe update my atol so it checks against zero
 		rules->num_eat_flag = true;
 	}
 	else
 		rules->num_eat_flag = false;
 	if (init_mutex(rules) == 1)
-		error_msg("You can't lock this!");
+		error_msg("You can't lock this!", rules);
 	if (init_thinker(rules))
-		error_msg("init failed");
+		error_msg("init failed", rules);
 	return (0);
 }
