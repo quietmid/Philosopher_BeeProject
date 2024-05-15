@@ -6,7 +6,7 @@
 /*   By: jlu <jlu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 20:41:55 by jlu               #+#    #+#             */
-/*   Updated: 2024/05/14 16:02:57 by jlu              ###   ########.fr       */
+/*   Updated: 2024/05/15 18:28:10 by jlu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,3 +43,50 @@ bool p_is_dead(t_philo *p, t_data *r)
 	return (i);
 }
 
+int	allp_ate(t_data *r, t_philo *p)
+{
+	int	i;
+
+	if (r->num_eat_flag)
+	{
+		i = 0;
+		while (i < r->num_philo && p_is_full(&p[i], r))
+		{
+			i++;
+			if (i == r->num_philo)
+			{
+				pthread_mutex_lock(&(r->dead_lock));
+				r->exit = 1;
+				pthread_mutex_unlock(&(r->dead_lock));
+				return (1);
+			}
+		}
+	}
+	return (0);
+}
+
+int	philo_dead(t_data *r, t_philo *p)
+{
+	int i;
+
+	i = 0;
+	if (r->num_philo == 1)
+	{
+		while (!(meal_time_checker(r, &p[0])))
+			;
+		return (1);
+	}
+	while (i < r->num_philo)
+	{
+		pthread_mutex_lock(&(r->dead_lock));
+		if (meal_time_checker(r, &p[i]))
+		{
+			r->exit = 1;
+			pthread_mutex_unlock(&(r->dead_lock));
+			return (1);
+		}
+		pthread_mutex_unlock(&(r->dead_lock));
+		i++;
+	}
+	return (0);
+}

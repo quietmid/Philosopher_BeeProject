@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mutex.c                                            :+:      :+:    :+:   */
+/*   p_actions.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jlu <jlu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 15:02:30 by jlu               #+#    #+#             */
-/*   Updated: 2024/05/14 19:08:19 by jlu              ###   ########.fr       */
+/*   Updated: 2024/05/15 18:38:19 by jlu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,9 @@ void	put_downforks(pthread_mutex_t *l_fork, pthread_mutex_t *r_fork, t_philo *p)
 
 int	eating(t_data *r, t_philo *p)
 {
-	pthread_mutex_lock(&(r->meal_lock));
 	action_print(r, p->id, EAT);
+	sleeper(r, r->time_eat);
+	pthread_mutex_lock(&(r->meal_lock));
 	p->t_last_meal = current_timestamp();
 	(p->meal_ate)++;
 	if (r->num_eat_flag && p->meal_ate == r->num_eat)
@@ -58,4 +59,10 @@ void	all_putdown(t_data *r, t_philo *p)
 		// printf("%d has r fork dropped\n", p->id);
 		p->fork_r = false;
 	}
+}
+
+void	sleeping(t_data *r, t_philo *p)
+{
+	action_print(r, p->id, SLEEP);
+	sleeper(r, r->time_sleep);
 }

@@ -6,7 +6,7 @@
 /*   By: jlu <jlu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 18:34:19 by jlu               #+#    #+#             */
-/*   Updated: 2024/05/14 19:09:13 by jlu              ###   ########.fr       */
+/*   Updated: 2024/05/15 17:19:41 by jlu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,8 @@ typedef struct s_data
 	pthread_mutex_t	write_lock;
 	pthread_mutex_t	meal_lock;
 	pthread_mutex_t	dead_lock;
-	pthread_mutex_t	p_lock;
-	pthread_mutex_t	alleat_lock;
+	//pthread_mutex_t	p_lock;
+	//pthread_mutex_t	alleat_lock;
 	t_philo			philo[200];
 }		t_data;
 
@@ -107,6 +107,8 @@ int		init_mutex(t_data *rules);
 long int	current_timestamp(void);
 long int	time_diff(long int l_eat, long int now);
 void		sleeper(t_data *r, long int time);
+int	allp_ate(t_data *r, t_philo *p);
+int	philo_dead(t_data *r, t_philo *p);
 
 // mutex
 void	put_downforks(pthread_mutex_t *l_fork, pthread_mutex_t *r_fork, t_philo *p);
@@ -128,5 +130,6 @@ int	p_eat(t_philo *philo);
 void	death_checker(t_data *r, t_philo *p);
 void	end_rountine(t_data *r);
 int		meal_time_checker(t_data *r, t_philo *p);
+void	sleeping(t_data *r, t_philo *p);
 
 #endif

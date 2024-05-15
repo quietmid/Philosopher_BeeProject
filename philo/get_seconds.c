@@ -6,7 +6,7 @@
 /*   By: jlu <jlu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 21:49:59 by jlu               #+#    #+#             */
-/*   Updated: 2024/05/10 18:18:10 by jlu              ###   ########.fr       */
+/*   Updated: 2024/05/15 17:12:32 by jlu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	sleeper(t_data *r, long int time)
 	{
 		if (time_diff(i, current_timestamp()) >= time)
 			break ;
-		usleep(50);
+		usleep(100);
 	}
 }
 // store the first timestamp and minus ms_nw to get how much time has passed.
