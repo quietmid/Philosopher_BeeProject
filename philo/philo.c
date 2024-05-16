@@ -6,7 +6,7 @@
 /*   By: jlu <jlu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 15:10:31 by jlu               #+#    #+#             */
-/*   Updated: 2024/05/15 19:05:57 by jlu              ###   ########.fr       */
+/*   Updated: 2024/05/16 17:07:52 by jlu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,20 @@
 void	end_rountine(t_data *r)
 {
 	int i;
+	t_philo *p;
 
+	p = r->philo;
 	i = -1;
 	while (++i < r->num_philo)
 		pthread_mutex_destroy(&(r->fork[i]));
 	pthread_mutex_destroy(&(r->write_lock));
 	pthread_mutex_destroy(&(r->dead_lock));
 	pthread_mutex_destroy(&(r->meal_lock));
+	free(r->fork);
+	free (p);
+	//i = -1;
+	//while (++i < r->num_philo)
+	//	free(&(p[i]));
 }
 
 int	main(int argc, char *argv[])

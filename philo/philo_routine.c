@@ -6,7 +6,7 @@
 /*   By: jlu <jlu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 15:43:42 by jlu               #+#    #+#             */
-/*   Updated: 2024/05/15 19:03:15 by jlu              ###   ########.fr       */
+/*   Updated: 2024/05/16 16:49:01 by jlu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ int	p_eat(t_philo *p)
 	t_data *r;
 
 	r = p->data;
-	if (is_exit(r) || p_is_dead(p, r))
+	if (is_exit(r) || p_is_dead(p, r) || p_is_full(p, r))
 		return (1);
 	pthread_mutex_lock(&(r->fork[p->l_fork]));
 	p->fork_l = true;
@@ -163,26 +163,27 @@ int	p_eat(t_philo *p)
 
 void	*p_day(void *void_philo)
 {
-	t_philo		*philo;
-	t_data		*rules;
-	//long int	sleeptime;
+	t_philo		*p;
+	t_data		*r;
 
-	philo = (t_philo *)void_philo;
-	rules = philo->data;
-	if (!(philo->id % 2))
+	p = (t_philo *)void_philo;
+	r = p->data;
+	if (!(p->id % 2))
 	{
-		action_print(rules, philo->id, THINK);
-		sleeper(rules, (rules->time_sleep)/2);
+		action_print(r, p->id, THINK);
+		sleeper(r, (r->time_sleep)/2);
 	}
-	while (!p_is_dead(philo, rules) && !is_exit(rules))
+	while (!p_is_dead(p, r) && !is_exit(r))
 	{
-		if (p_eat(philo))
+		if (p_eat(p))
 			break ; //this way, if its one philo, it end
-		sleeping(rules, philo);
-		action_print(rules, philo->id, THINK);
+		if (sleeping(r, p))
+			break ;
+		if (thinking(r, p))
+			break ;
 	}
-	if (is_exit(rules))
-		all_putdown(rules, philo);
+	if (is_exit(r))
+		all_putdown(r, p);
 	return (NULL);
 }
 

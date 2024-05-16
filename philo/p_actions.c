@@ -6,7 +6,7 @@
 /*   By: jlu <jlu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 15:02:30 by jlu               #+#    #+#             */
-/*   Updated: 2024/05/15 18:38:19 by jlu              ###   ########.fr       */
+/*   Updated: 2024/05/16 16:49:45 by jlu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,17 +31,18 @@ void	put_downforks(pthread_mutex_t *l_fork, pthread_mutex_t *r_fork, t_philo *p)
 int	eating(t_data *r, t_philo *p)
 {
 	action_print(r, p->id, EAT);
-	sleeper(r, r->time_eat);
 	pthread_mutex_lock(&(r->meal_lock));
 	p->t_last_meal = current_timestamp();
 	(p->meal_ate)++;
 	if (r->num_eat_flag && p->meal_ate == r->num_eat)
 	{
 		p->full = true;
+		//printf("%d is full\n", p->id + 1);
 		pthread_mutex_unlock(&(r->meal_lock));
 		return (1);
 	}
 	pthread_mutex_unlock(&(r->meal_lock));
+	sleeper(r, r->time_eat);
 	return (0);
 }
 
@@ -61,8 +62,19 @@ void	all_putdown(t_data *r, t_philo *p)
 	}
 }
 
-void	sleeping(t_data *r, t_philo *p)
+int	sleeping(t_data *r, t_philo *p)
 {
+	if (is_exit(r))
+		return (1);
 	action_print(r, p->id, SLEEP);
 	sleeper(r, r->time_sleep);
+	return (0);
+}
+
+int	thinking(t_data *r, t_philo *p)
+{
+	if (is_exit(r))
+		return (1);
+	action_print(r, p->id, THINK);
+	return (0);
 }

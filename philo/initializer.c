@@ -6,7 +6,7 @@
 /*   By: jlu <jlu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 13:40:34 by jlu               #+#    #+#             */
-/*   Updated: 2024/05/15 19:00:08 by jlu              ###   ########.fr       */
+/*   Updated: 2024/05/16 16:38:56 by jlu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,33 +18,24 @@ int	init_thinker(t_data *r)
 	int	i;
 
 	i = r->num_philo;
-	//printf("The number of Confusius is: %d\n", i);
+	r->philo = malloc(sizeof(t_philo) * i);
+	if (!(r->philo))
+		error_msg("Creation of the minds failed", r);
 	while (--i >= 0)
 	{
 		r->philo[i].id = i;
-		//printf("Confusius[%d]\n", i);
 		r->philo[i].meal_ate = 0;
-		r->philo[i].l_fork = i; //printf("has l_fork id: %d", i);
+		r->philo[i].l_fork = i;
 		if (i == 0)
-		{
 			r->philo[i].r_fork = r->num_philo - 1;
-			//printf(" and r_fork id: %d", philo->thinkers[i].r_fork);
-		}
 		else
-		{
 			r->philo[i].r_fork = i - 1;
-			//printf(" and r_fork id: %d\n", philo->thinkers[i].r_fork);
-		}
 		r->philo[i].t_last_meal = 0;
 		r->philo[i].data = r;
 		r->philo[i].full = false;
 		r->philo[i].dead = false;
 		r->philo[i].fork_l = false;
 		r->philo[i].fork_r = false;
-		//if (pthread_mutex_init(&(r->philo[i].p_deadlock), NULL))
-		//	return (1);
-		//if (pthread_mutex_init(&(r->philo[i].p_meallock), NULL))
-		//	return (1);
 	}
 	return (0);
 }
@@ -54,6 +45,9 @@ int	init_mutex(t_data *rules)
 	int i;
 
 	i = rules->num_philo;
+	rules->fork = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * i);
+	if (!(rules->fork))
+		error_msg("fork malloc failed", rules);
 	while (--i >= 0)
 	{
 		if (pthread_mutex_init(&(rules->fork[i]), NULL))
@@ -65,10 +59,6 @@ int	init_mutex(t_data *rules)
 		return (1);
 	if (pthread_mutex_init(&(rules->dead_lock), NULL))
 		return (1);
-	// if (pthread_mutex_init(&(rules->alleat_lock), NULL))
-	// 	return (1);
-	// if (pthread_mutex_init(&(rules->p_lock), NULL))
-	// 	return (1);
 	return (0);
 }
 

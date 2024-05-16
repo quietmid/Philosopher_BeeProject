@@ -6,7 +6,7 @@
 /*   By: jlu <jlu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 20:41:55 by jlu               #+#    #+#             */
-/*   Updated: 2024/05/15 18:28:10 by jlu              ###   ########.fr       */
+/*   Updated: 2024/05/16 16:36:43 by jlu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ int	allp_ate(t_data *r, t_philo *p)
 			{
 				pthread_mutex_lock(&(r->dead_lock));
 				r->exit = 1;
+				//printf("everyone is full\n");
 				pthread_mutex_unlock(&(r->dead_lock));
 				return (1);
 			}
