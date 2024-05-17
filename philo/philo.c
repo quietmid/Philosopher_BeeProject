@@ -6,7 +6,7 @@
 /*   By: jlu <jlu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 15:10:31 by jlu               #+#    #+#             */
-/*   Updated: 2024/05/17 23:33:57 by jlu              ###   ########.fr       */
+/*   Updated: 2024/05/17 23:39:40 by jlu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ int	check_arg(char *argv)
 	}
 	return (0);
 }
+
 int	main(int argc, char *argv[])
 {
 	t_data		rules;
