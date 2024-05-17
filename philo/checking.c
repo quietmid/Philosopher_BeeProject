@@ -6,15 +6,15 @@
 /*   By: jlu <jlu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 20:41:55 by jlu               #+#    #+#             */
-/*   Updated: 2024/05/16 16:36:43 by jlu              ###   ########.fr       */
+/*   Updated: 2024/05/17 19:20:13 by jlu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-bool is_exit(t_data *r)
+bool	is_exit(t_data *r)
 {
-	bool i;
+	bool	i;
 
 	pthread_mutex_lock(&(r->dead_lock));
 	i = r->exit;
@@ -22,9 +22,9 @@ bool is_exit(t_data *r)
 	return (i);
 }
 
-bool p_is_full(t_philo *p, t_data *r)
+bool	p_is_full(t_philo *p, t_data *r)
 {
-	bool i;
+	bool	i;
 
 	pthread_mutex_lock(&(r->meal_lock));
 	i = p->full;
@@ -32,13 +32,12 @@ bool p_is_full(t_philo *p, t_data *r)
 	return (i);
 }
 
-bool p_is_dead(t_philo *p, t_data *r)
+bool	p_is_dead(t_philo *p, t_data *r)
 {
-	bool i;
+	bool	i;
+
 	pthread_mutex_lock(&(r->meal_lock));
-	// pthread_mutex_lock(&(r->dead_lock));
 	i = p->dead;
-	// pthread_mutex_unlock(&(r->dead_lock));
 	pthread_mutex_unlock(&(r->meal_lock));
 	return (i);
 }
@@ -57,7 +56,6 @@ int	allp_ate(t_data *r, t_philo *p)
 			{
 				pthread_mutex_lock(&(r->dead_lock));
 				r->exit = 1;
-				//printf("everyone is full\n");
 				pthread_mutex_unlock(&(r->dead_lock));
 				return (1);
 			}
@@ -68,7 +66,7 @@ int	allp_ate(t_data *r, t_philo *p)
 
 int	philo_dead(t_data *r, t_philo *p)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (r->num_philo == 1)
@@ -79,14 +77,13 @@ int	philo_dead(t_data *r, t_philo *p)
 	}
 	while (i < r->num_philo)
 	{
-		pthread_mutex_lock(&(r->dead_lock));
 		if (meal_time_checker(r, &p[i]))
 		{
+			pthread_mutex_lock(&(r->dead_lock));
 			r->exit = 1;
 			pthread_mutex_unlock(&(r->dead_lock));
 			return (1);
 		}
-		pthread_mutex_unlock(&(r->dead_lock));
 		i++;
 	}
 	return (0);

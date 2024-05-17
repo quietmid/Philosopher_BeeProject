@@ -6,12 +6,11 @@
 /*   By: jlu <jlu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 13:40:34 by jlu               #+#    #+#             */
-/*   Updated: 2024/05/16 16:38:56 by jlu              ###   ########.fr       */
+/*   Updated: 2024/05/17 19:18:01 by jlu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
 
 int	init_thinker(t_data *r)
 {
@@ -20,7 +19,7 @@ int	init_thinker(t_data *r)
 	i = r->num_philo;
 	r->philo = malloc(sizeof(t_philo) * i);
 	if (!(r->philo))
-		error_msg("Creation of the minds failed", r);
+		error_msg_free("Creation of the minds failed", r);
 	while (--i >= 0)
 	{
 		r->philo[i].id = i;
@@ -42,12 +41,12 @@ int	init_thinker(t_data *r)
 
 int	init_mutex(t_data *rules)
 {
-	int i;
+	int	i;
 
 	i = rules->num_philo;
-	rules->fork = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * i);
+	rules->fork = malloc(sizeof(pthread_mutex_t) * i);
 	if (!(rules->fork))
-		error_msg("fork malloc failed", rules);
+		error_msg_free("fork malloc failed", rules);
 	while (--i >= 0)
 	{
 		if (pthread_mutex_init(&(rules->fork[i]), NULL))
@@ -72,21 +71,21 @@ int	init_data(char *argv[], t_data *rules)
 	rules->exit = false;
 	if (rules->num_philo < 1 || rules->time_die < 1 \
 	|| rules->time_eat < 1 || rules->time_sleep < 1)
-		error_msg(ERR_AG, rules);
-	if (rules->num_philo > 200)
-		error_msg("Too many confucius. It's confusing", rules);
+		return (error_msg(ERR_AG));
+	if (rules->num_philo > 199)
+		return (error_msg("Too many confucius. It's confusing"));
 	if (argv[5])
 	{
 		rules->num_eat = ft_atol(argv[5]);
 		if (rules->num_eat <= 0)
-			error_msg(ERR_AG, rules); // maybe update my atol so it checks against zero
+			error_msg(ERR_AG);
 		rules->num_eat_flag = true;
 	}
 	else
 		rules->num_eat_flag = false;
 	if (init_mutex(rules) == 1)
-		error_msg("You can't lock this!", rules);
+		error_msg_free("You can't lock this!", rules);
 	if (init_thinker(rules))
-		error_msg("init failed", rules);
+		error_msg_free("init failed", rules);
 	return (0);
 }

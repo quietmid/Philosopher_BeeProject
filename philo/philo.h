@@ -6,7 +6,7 @@
 /*   By: jlu <jlu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 18:34:19 by jlu               #+#    #+#             */
-/*   Updated: 2024/05/16 16:48:42 by jlu              ###   ########.fr       */
+/*   Updated: 2024/05/17 19:16:44 by jlu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 // library headers
 # include <string.h>
-# include <stdbool.h> // to check if the thinker is full or not
+# include <stdbool.h> // bool
 # include <pthread.h> // pthread, mutex
 # include <unistd.h> // usleep
 # include <stdlib.h> // malloc
@@ -23,7 +23,7 @@
 # include <sys/time.h> // gettimeofday
 # include <limits.h> // INT_MAX | LONG_MAX
 
-// err
+// error
 # define ERR_INPUT "Confucius says, try again"
 # define ERR_AG "Invalid Arguments"
 # define ERR_MEM "Memry allocation fails"
@@ -37,10 +37,12 @@
 # define DEATH "died"
 
 //debugging
-#define D_LFORK "dropped LEFT FORK"
-#define D_RFORK "dropped RIGHT FORK"
+//#define D_LFORK "dropped LEFT FORK"
+//#define D_RFORK "dropped RIGHT FORK"
 
-struct s_philo;
+//struct
+
+struct	s_philo;
 
 typedef struct s_philo
 {
@@ -54,9 +56,7 @@ typedef struct s_philo
 	bool			fork_r;
 	long long		t_last_meal;
 	pthread_t		thread;
-	//pthread_mutex_t		p_deadlock;
-	//pthread_mutex_t		p_meallock;
-	struct s_data 	*data;
+	struct s_data	*data;
 }		t_philo;
 
 typedef struct s_data
@@ -70,69 +70,51 @@ typedef struct s_data
 	bool			num_eat_flag;
 	long int		start_time;
 	pthread_mutex_t	*fork;
-	//pthread_mutex_t	fork[200]; //no VLA because of NORM
 	pthread_mutex_t	write_lock;
 	pthread_mutex_t	meal_lock;
 	pthread_mutex_t	dead_lock;
 	t_philo			*philo;
-	//t_philo			philo[200]; // no VLA because of NORM
-	//pthread_mutex_t	p_lock;
-	//pthread_mutex_t	alleat_lock;
 }		t_data;
 
-//typedef enum State
-//{
-//	THINKING = 0,
-//	HUNGRY = 1,
-//	EATING = 2,
-//	FULL = 3,
-//	SLEEPING = 4,
-//	TIRED = 5,
-//};
-
 // Functions
-long int	error_msg(char *err, t_data *r);
+
+// Printing
+int			error_msg(char *err);
+int			error_msg_free(char *err, t_data *r);
 void		action_print(t_data *rules, int id, char *message);
 
-//parsing
-int		ft_atol(const char *s);
-void	*ft_calloc(size_t count, size_t size);
-void	ft_bzero(void *s, size_t n);
+//parsing && initializing
+void		*ft_calloc(size_t count, size_t size);
+void		ft_bzero(void *s, size_t n);
+int			ft_atol(const char *s);
+int			init_data(char *argv[], t_data *rules);
+int			init_thinker(t_data *rules);
+int			init_mutex(t_data *rules);
 
-// initizalizer
-
-int		init_data(char *argv[], t_data *rules);
-int		init_thinker(t_data *rules);
-int		init_mutex(t_data *rules);
-
-// utils
+// GetTime
 long int	current_timestamp(void);
 long int	time_diff(long int l_eat, long int now);
 void		sleeper(t_data *r, long int time);
-int	allp_ate(t_data *r, t_philo *p);
-int	philo_dead(t_data *r, t_philo *p);
 
-// mutex
-void	put_downforks(pthread_mutex_t *l_fork, pthread_mutex_t *r_fork, t_philo *p);
-int		eating(t_data *r, t_philo *p);
-void	all_putdown(t_data *r, t_philo *p);
-// bool 	is_dead(t_data *r);
-// bool 	is_full(t_data *r);
-bool	is_exit(t_data *r);
-//bool 	p_is_full(t_philo *p);
-//bool 	p_is_dead(t_philo *p);
-bool 	p_is_full(t_philo *p, t_data *r);
-bool 	p_is_dead(t_philo *p, t_data *r);
+// Checks
+int			allp_ate(t_data *r, t_philo *p);
+int			philo_dead(t_data *r, t_philo *p);
+int			meal_time_checker(t_data *r, t_philo *p);
+bool		is_exit(t_data *r);
+bool		p_is_full(t_philo *p, t_data *r);
+bool		p_is_dead(t_philo *p, t_data *r);
+void		death_checker(t_data *r, t_philo *p);
 
-//threading
-int		philo_rountine(t_data *rules);
-void	*p_day(void *void_philo);
-// void	p_eat(t_philo *philo);
-int		p_eat(t_philo *philo);
-void	death_checker(t_data *r, t_philo *p);
-void	end_rountine(t_data *r);
-int		meal_time_checker(t_data *r, t_philo *p);
-int		sleeping(t_data *r, t_philo *p);
-int		thinking(t_data *r, t_philo *p);
+// Philo action
+void		all_putdown(t_data *r, t_philo *p);
+void		*p_day(void *void_philo);
+int			eating(t_data *r, t_philo *p);
+int			p_eat(t_philo *philo);
+int			sleeping(t_data *r, t_philo *p);
+int			thinking(t_data *r, t_philo *p);
+
+// thread create && clean ups
+int			philo_rountine(t_data *rules);
+void		end_rountine(t_data *r);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: jlu <jlu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 21:49:59 by jlu               #+#    #+#             */
-/*   Updated: 2024/05/15 17:12:32 by jlu              ###   ########.fr       */
+/*   Updated: 2024/05/17 19:18:33 by jlu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,12 @@ long int	current_timestamp(void)
 	return (ms);
 }
 
-long time_diff(long int l_eat, long int now)
+long	time_diff(long int l_eat, long int now)
 {
-	long int time_diff;
+	long int	time_diff;
 
 	time_diff = now - l_eat;
-	return(time_diff);
+	return (time_diff);
 }
 
 void	sleeper(t_data *r, long int time)
@@ -42,21 +42,3 @@ void	sleeper(t_data *r, long int time)
 		usleep(100);
 	}
 }
-// store the first timestamp and minus ms_nw to get how much time has passed.
-// int main ()
-// {
-// 	long long ms_start = current_timestamp();
-// 	long long ms_nw;
-
-// 	printf("time of the day: %lld\n", ms_start);
-// 	sleep(3);
-// 	ms_nw = current_timestamp();
-// 	printf("time of the day: %lld\n", ms_nw - ms_start);
-// 	sleep(3);
-// 	ms_nw = current_timestamp();
-// 	printf("time of the day: %lld\n", ms_nw - ms_start);
-// 	sleep(5);
-// 	ms_nw = current_timestamp();
-// 	printf("time of the day: %lld\n", ms_nw - ms_start);
-// 	return 0;
-// }

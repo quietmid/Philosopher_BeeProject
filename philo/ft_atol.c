@@ -6,7 +6,7 @@
 /*   By: jlu <jlu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 18:35:00 by jlu               #+#    #+#             */
-/*   Updated: 2024/04/30 11:58:10 by jlu              ###   ########.fr       */
+/*   Updated: 2024/05/17 19:19:11 by jlu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int	ft_get_int(const char *s, int i)
 		else if (i == -1 && nb > (unsigned long)LONG_MAX / 10)
 			return (0);
 		nb = nb * 10;
-		if (i == 1 && nb >(unsigned long)LONG_MAX - (*s - 48))
+		if (i == 1 && nb > (unsigned long)LONG_MAX - (*s - 48))
 			return (-1);
 		else if (i == -1 && nb > (unsigned long)LONG_MAX - (*s - 48))
 			return (0);

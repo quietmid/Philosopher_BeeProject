@@ -6,7 +6,7 @@
 #    By: jlu <jlu@student.hive.fi>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/24 17:57:19 by jlu               #+#    #+#              #
-#    Updated: 2024/05/16 17:08:24 by jlu              ###   ########.fr        #
+#    Updated: 2024/05/17 18:40:47 by jlu              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,8 +24,9 @@ SRC = philo.c \
 	  checking.c \
 	  
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -fsanitize=thread
+CFLAGS = -Wall -Wextra -Werror
 
+#-fsanitize=address
 #-fsanitize=thread
 #-g
 

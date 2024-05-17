@@ -6,7 +6,7 @@
 /*   By: jlu <jlu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 15:43:42 by jlu               #+#    #+#             */
-/*   Updated: 2024/05/16 16:49:01 by jlu              ###   ########.fr       */
+/*   Updated: 2024/05/17 19:13:34 by jlu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 int	meal_time_checker(t_data *r, t_philo *p)
 {
-	// pthread_mutex_lock(&(r->p_lock));
 	pthread_mutex_lock(&(r->meal_lock));
 	if (time_diff(p->t_last_meal, current_timestamp()) > r->time_die)
 	{
@@ -24,14 +23,13 @@ int	meal_time_checker(t_data *r, t_philo *p)
 		return (1);
 	}
 	pthread_mutex_unlock(&(r->meal_lock));
-	// pthread_mutex_unlock(&(r->p_lock));
 	return (0);
 }
+
 void	death_checker(t_data *r, t_philo *p)
 {
 	while (1)
 	{
-		//printf("here\n");
 		usleep(150);
 		if (allp_ate(r, p))
 			break ;
@@ -39,127 +37,27 @@ void	death_checker(t_data *r, t_philo *p)
 			break ;
 	}
 }
-// need to create two more functions for allp_ate and philo_dead
-//void	death_checker(t_data *r, t_philo *p)
-//{
-//	int i;
 
-//	// printf("death_checker in\n"); // debugg
-//	while (!is_exit(r))
-//	{
-//		usleep(150);
-//		if (r->num_eat_flag)
-//		{
-//			// printf("Number of Eat flag on!\n"); //debugg
-//			i = -1;
-//			while (++i < r->num_philo && p_is_full(&p[i], r))
-//				;
-//			if (i == r->num_philo)
-//			{
-//				pthread_mutex_lock(&(r->dead_lock));
-//				r->exit = true;
-//				pthread_mutex_unlock(&(r->dead_lock));
-//				// break ;
-//			}
-//		}
-//		i = -1;
-//		while (++i < r->num_philo) 
-//		{	
-//			pthread_mutex_lock(&(r->dead_lock));
-//			r->exit = meal_time_checker(r, p);
-//			pthread_mutex_unlock(&(r->dead_lock));
-//		 	if (is_exit(r))
-//		 	{
-//		 		printf("here\n");
-//		 		break ;
-//		 	}
-//		}
-//	}
-//}
-// void	death_checker(t_data *r, t_philo *p)
-// {
-// 	int i;
-
-// 	while (!is_full(r))
-// 	{
-// 		i = -1;
-// 		if (r->num_eat_flag)
-// 		{
-// 			while (++i < r->num_philo && p_is_full(&p[i], r))
-// 				;
-// 			if (i == r->num_philo)
-// 			{
-// 				pthread_mutex_lock(&(r->dead_lock));
-// 				r->all_ate = true;
-// 				pthread_mutex_unlock(&(r->dead_lock));
-// 			}
-// 		}
-// 		i = -1;
-// 		while (++i < r->num_philo && !is_dead(r)) // here I believe it is because I m using the deadlock to check the while loop but also using the deadlock inside this while loop.
-// 		{
-// 				pthread_mutex_lock(&(r->dead_lock));
-// 				r->dead_flag = meal_time_checker(r, p);
-// 				pthread_mutex_unlock(&(r->dead_lock));
-// 				// usleep(150);
-// 		}
-// 		if (is_dead(r))
-// 			break ;
-// 	}
-// }
 int	p_eat(t_philo *p)
 {
-	t_data *r;
+	t_data	*r;
 
 	r = p->data;
-	if (is_exit(r) || p_is_dead(p, r) || p_is_full(p, r))
-		return (1);
 	pthread_mutex_lock(&(r->fork[p->l_fork]));
 	p->fork_l = true;
 	action_print(r, p->id, FORK);
 	if (r->num_philo == 1)
 	{
-		put_downforks(&(r->fork[p->l_fork]), &(r->fork[p->r_fork]), p);
+		all_putdown(r, p);
 		return (1);
 	}
 	pthread_mutex_lock(&(r->fork[p->r_fork]));
 	p->fork_r = true;
 	action_print(r, p->id, FORK);
 	eating(r, p);
-	//sleeper(r, r->time_eat);
-	put_downforks(&(r->fork[p->l_fork]), &(r->fork[p->r_fork]), p);
+	all_putdown(r, p);
 	return (0);
 }
-// void	p_eat(t_philo *philo)
-// {
-// 	t_data *rules;
-
-// 	rules = philo->data;
-// 	pthread_mutex_lock(&(rules->fork[philo->l_fork]));
-// 	philo->fork_l = true;
-// 	action_print(rules, philo->id, FORK);
-// 	if (rules->num_philo == 1)
-// 	{
-// 		sleeper(rules, rules->time_die);
-// 		pthread_mutex_unlock(&(rules->fork[philo->l_fork]));
-// 		philo->fork_l = false;
-// 		action_print(rules, philo->id, D_LFORK); // debugg
-// 		return ;
-// 	}
-// 	pthread_mutex_lock(&(rules->fork[philo->r_fork]));
-// 	philo->fork_r = true;
-// 	action_print(rules, philo->id, FORK);
-// 	eating(rules, philo);
-// 	sleeper(rules, rules->time_eat);
-// 		//debugg
-// 		// pthread_mutex_unlock(&(rules->fork[philo->l_fork]));
-// 		// philo->fork_l = false;
-// 		// action_print(rules, philo->id, D_LFORK);
-// 		// pthread_mutex_unlock(&(rules->fork[philo->r_fork]));
-// 		// philo->fork_r = false;
-// 		// action_print(rules, philo->id, D_RFORK);
-// 		//debugg
-// 	put_downforks(&(rules->fork[philo->l_fork]), &(rules->fork[philo->r_fork]), philo);
-// }
 
 void	*p_day(void *void_philo)
 {
@@ -171,12 +69,12 @@ void	*p_day(void *void_philo)
 	if (!(p->id % 2))
 	{
 		action_print(r, p->id, THINK);
-		sleeper(r, (r->time_sleep)/2);
+		sleeper(r, (r->time_sleep) / 2);
 	}
 	while (!p_is_dead(p, r) && !is_exit(r))
 	{
 		if (p_eat(p))
-			break ; //this way, if its one philo, it end
+			break ;
 		if (sleeping(r, p))
 			break ;
 		if (thinking(r, p))
@@ -189,16 +87,16 @@ void	*p_day(void *void_philo)
 
 int	philo_rountine(t_data *rules)
 {
-	int 		i;
-	t_philo 	*philo;
+	int		i;
+	t_philo	*philo;
 
-	i = 0;
 	philo = rules->philo;
 	rules->start_time = current_timestamp();
+	i = 0;
 	while (i < rules->num_philo)
 	{
 		if (pthread_create(&(philo[i].thread), NULL, &p_day, &(philo[i])))
-			error_msg("No thread today", rules); // clear everything
+			error_msg_free("No thread today", rules);
 		pthread_mutex_lock(&(rules->meal_lock));
 		philo[i].t_last_meal = current_timestamp();
 		pthread_mutex_unlock(&(rules->meal_lock));
@@ -207,11 +105,8 @@ int	philo_rountine(t_data *rules)
 	death_checker(rules, rules->philo);
 	i = -1;
 	while (++i < rules->num_philo)
-	{
-		//pthread_join(philo[i].thread, NULL);
-		if(pthread_join(philo[i].thread, NULL))
-			error_msg("thread failed", rules);
-	}
+		if (pthread_join(philo[i].thread, NULL))
+			error_msg_free("thread failed", rules);
 	end_rountine(rules);
 	return (0);
 }
