@@ -6,7 +6,7 @@
 /*   By: jlu <jlu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 18:34:19 by jlu               #+#    #+#             */
-/*   Updated: 2024/05/17 19:16:44 by jlu              ###   ########.fr       */
+/*   Updated: 2024/05/17 23:18:45 by jlu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,8 @@ int			ft_atol(const char *s);
 int			init_data(char *argv[], t_data *rules);
 int			init_thinker(t_data *rules);
 int			init_mutex(t_data *rules);
+int			ft_isdigit(char c);
+int			check_arg(char *argv);
 
 // GetTime
 long int	current_timestamp(void);

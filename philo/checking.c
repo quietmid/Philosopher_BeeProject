@@ -6,7 +6,7 @@
 /*   By: jlu <jlu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 20:41:55 by jlu               #+#    #+#             */
-/*   Updated: 2024/05/17 19:20:13 by jlu              ###   ########.fr       */
+/*   Updated: 2024/05/17 20:00:55 by jlu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,12 +69,6 @@ int	philo_dead(t_data *r, t_philo *p)
 	int	i;
 
 	i = 0;
-	if (r->num_philo == 1)
-	{
-		while (!(meal_time_checker(r, &p[0])))
-			;
-		return (1);
-	}
 	while (i < r->num_philo)
 	{
 		if (meal_time_checker(r, &p[i]))

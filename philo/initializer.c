@@ -6,7 +6,7 @@
 /*   By: jlu <jlu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 13:40:34 by jlu               #+#    #+#             */
-/*   Updated: 2024/05/17 19:18:01 by jlu              ###   ########.fr       */
+/*   Updated: 2024/05/17 23:02:51 by jlu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	init_thinker(t_data *r)
 	i = r->num_philo;
 	r->philo = malloc(sizeof(t_philo) * i);
 	if (!(r->philo))
-		error_msg_free("Creation of the minds failed", r);
+		return (error_msg_free("Creation of the minds failed", r));
 	while (--i >= 0)
 	{
 		r->philo[i].id = i;
@@ -46,7 +46,7 @@ int	init_mutex(t_data *rules)
 	i = rules->num_philo;
 	rules->fork = malloc(sizeof(pthread_mutex_t) * i);
 	if (!(rules->fork))
-		error_msg_free("fork malloc failed", rules);
+		return (error_msg_free("fork malloc failed", rules));
 	while (--i >= 0)
 	{
 		if (pthread_mutex_init(&(rules->fork[i]), NULL))
@@ -78,14 +78,14 @@ int	init_data(char *argv[], t_data *rules)
 	{
 		rules->num_eat = ft_atol(argv[5]);
 		if (rules->num_eat <= 0)
-			error_msg(ERR_AG);
+			return (error_msg(ERR_AG));
 		rules->num_eat_flag = true;
 	}
 	else
 		rules->num_eat_flag = false;
-	if (init_mutex(rules) == 1)
-		error_msg_free("You can't lock this!", rules);
+	if (init_mutex(rules))
+		return (error_msg_free("You can't lock this!", rules));
 	if (init_thinker(rules))
-		error_msg_free("init failed", rules);
+		return (error_msg_free("brains manufacturing error", rules));
 	return (0);
 }

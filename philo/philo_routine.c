@@ -6,7 +6,7 @@
 /*   By: jlu <jlu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 15:43:42 by jlu               #+#    #+#             */
-/*   Updated: 2024/05/17 19:13:34 by jlu              ###   ########.fr       */
+/*   Updated: 2024/05/17 23:36:26 by jlu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void	*p_day(void *void_philo)
 	if (!(p->id % 2))
 	{
 		action_print(r, p->id, THINK);
-		sleeper(r, (r->time_sleep) / 2);
+		sleeper(r, (r->time_eat) / 2);
 	}
 	while (!p_is_dead(p, r) && !is_exit(r))
 	{
@@ -96,17 +96,16 @@ int	philo_rountine(t_data *rules)
 	while (i < rules->num_philo)
 	{
 		if (pthread_create(&(philo[i].thread), NULL, &p_day, &(philo[i])))
-			error_msg_free("No thread today", rules);
+			return (error_msg_free("No thread today", rules));
 		pthread_mutex_lock(&(rules->meal_lock));
 		philo[i].t_last_meal = current_timestamp();
 		pthread_mutex_unlock(&(rules->meal_lock));
 		i++;
 	}
 	death_checker(rules, rules->philo);
-	i = -1;
-	while (++i < rules->num_philo)
+	while (--i >= 0)
 		if (pthread_join(philo[i].thread, NULL))
-			error_msg_free("thread failed", rules);
+			error_msg_free("thread joining failed", rules);
 	end_rountine(rules);
 	return (0);
 }
