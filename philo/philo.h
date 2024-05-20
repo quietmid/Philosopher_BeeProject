@@ -6,7 +6,7 @@
 /*   By: jlu <jlu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 18:34:19 by jlu               #+#    #+#             */
-/*   Updated: 2024/05/17 23:18:45 by jlu              ###   ########.fr       */
+/*   Updated: 2024/05/20 15:34:58 by jlu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ int			meal_time_checker(t_data *r, t_philo *p);
 bool		is_exit(t_data *r);
 bool		p_is_full(t_philo *p, t_data *r);
 bool		p_is_dead(t_philo *p, t_data *r);
-void		death_checker(t_data *r, t_philo *p);
+void		death_checker(t_data *r, t_philo *p, int i);
 
 // Philo action
 void		all_putdown(t_data *r, t_philo *p);

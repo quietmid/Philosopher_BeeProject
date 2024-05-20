@@ -6,7 +6,7 @@
 /*   By: jlu <jlu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 15:10:31 by jlu               #+#    #+#             */
-/*   Updated: 2024/05/17 23:39:40 by jlu              ###   ########.fr       */
+/*   Updated: 2024/05/20 15:29:57 by jlu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ int	main(int argc, char *argv[])
 	t_data		rules;
 	int			i;
 
+	rules = (t_data){0};
 	i = 1;
 	if (argc < 5 || argc > 6)
 		return (error_msg(ERR_INPUT));

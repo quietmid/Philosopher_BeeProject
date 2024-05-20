@@ -6,7 +6,7 @@
 /*   By: jlu <jlu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 15:43:42 by jlu               #+#    #+#             */
-/*   Updated: 2024/05/17 23:42:32 by jlu              ###   ########.fr       */
+/*   Updated: 2024/05/20 16:05:02 by jlu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,23 @@ int	meal_time_checker(t_data *r, t_philo *p)
 	return (0);
 }
 
-void	death_checker(t_data *r, t_philo *p)
+void	death_checker(t_data *r, t_philo *p, int i)
 {
-	while (1)
+	if (i == r->num_philo)
 	{
-		usleep(150);
-		if (allp_ate(r, p))
-			break ;
-		if (philo_dead(r, p))
-			break ;
+		while (1)
+		{
+			if (allp_ate(r, p))
+				break ;
+			if (philo_dead(r, p))
+				break ;
+		}
+	}
+	else
+	{
+		pthread_mutex_lock(&(r->dead_lock));
+		r->exit = true;
+		pthread_mutex_unlock(&(r->dead_lock));
 	}
 }
 
@@ -69,7 +77,7 @@ void	*p_day(void *void_philo)
 	if (!(p->id % 2))
 	{
 		action_print(r, p->id, THINK);
-		sleeper(r, (r->time_eat) / 2);
+		sleeper(r, ((r->time_eat) / 2));
 	}
 	while (!p_is_dead(p, r) && !is_exit(r))
 	{
@@ -96,16 +104,19 @@ int	philo_rountine(t_data *rules)
 	while (i < rules->num_philo)
 	{
 		if (pthread_create(&(philo[i].thread), NULL, &p_day, &(philo[i])))
-			return (error_msg_free("No thread today", rules));
-		//pthread_mutex_lock(&(rules->meal_lock));
-		//philo[i].t_last_meal = current_timestamp();
-		//pthread_mutex_unlock(&(rules->meal_lock));
+		{
+			error_msg("Thread creations failed");
+			break ;
+		}
+		pthread_mutex_lock(&(rules->meal_lock));
+		philo[i].t_last_meal = current_timestamp();
+		pthread_mutex_unlock(&(rules->meal_lock));
 		i++;
 	}
-	death_checker(rules, rules->philo);
+	death_checker(rules, rules->philo, i);
 	while (--i >= 0)
 		if (pthread_join(philo[i].thread, NULL))
-			return (error_msg_free("thread joining failed", rules));
+			error_msg_free("thread joining failed", rules);
 	end_rountine(rules);
 	return (0);
 }

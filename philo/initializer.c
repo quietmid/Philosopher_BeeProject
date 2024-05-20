@@ -6,7 +6,7 @@
 /*   By: jlu <jlu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 13:40:34 by jlu               #+#    #+#             */
-/*   Updated: 2024/05/17 23:42:24 by jlu              ###   ########.fr       */
+/*   Updated: 2024/05/20 15:06:39 by jlu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	init_thinker(t_data *r)
 			r->philo[i].r_fork = r->num_philo - 1;
 		else
 			r->philo[i].r_fork = i - 1;
-		r->philo[i].t_last_meal = current_timestamp();
+		r->philo[i].t_last_meal = 0;
 		r->philo[i].data = r;
 		r->philo[i].full = false;
 		r->philo[i].dead = false;
@@ -72,8 +72,6 @@ int	init_data(char *argv[], t_data *rules)
 	if (rules->num_philo < 1 || rules->time_die < 1 \
 	|| rules->time_eat < 1 || rules->time_sleep < 1)
 		return (error_msg(ERR_AG));
-	if (rules->num_philo > 199)
-		return (error_msg("Too many confucius. It's confusing"));
 	if (argv[5])
 	{
 		rules->num_eat = ft_atol(argv[5]);

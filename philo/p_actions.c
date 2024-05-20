@@ -6,7 +6,7 @@
 /*   By: jlu <jlu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 15:02:30 by jlu               #+#    #+#             */
-/*   Updated: 2024/05/17 18:41:23 by jlu              ###   ########.fr       */
+/*   Updated: 2024/05/20 16:08:55 by jlu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	eating(t_data *r, t_philo *p)
 	pthread_mutex_lock(&(r->meal_lock));
 	p->t_last_meal = current_timestamp();
 	(p->meal_ate)++;
-	if (r->num_eat_flag && p->meal_ate == r->num_eat)
+	if (r->num_eat_flag && p->meal_ate >= r->num_eat)
 	{
 		p->full = true;
 		pthread_mutex_unlock(&(r->meal_lock));
